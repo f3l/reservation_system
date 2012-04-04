@@ -26,6 +26,23 @@ public:
 
 	room();
 	void print_room();
+	void lock();
+	void unlock();
+	void reserve();
+	void release();
+	void handout();
+	void cancel();
+	/*
+	 * Important: check whether an option is allowed!
+	 * The states in which you can perform an action are:
+	 * lock(): each
+	 * unlock(): LOCKED
+	 * reserve(): FREE
+	 * release(): RESERVED
+	 * handout(): FREE, RESERVED (later with check)
+	 * cancel(): LOCKED (Does almost the same as release(), but with another verification
+	 */
+
 
 private:
 	uint rows;
@@ -52,7 +69,7 @@ room::room()
 	/*We need to create a real dynamic array for seats*/
 	seats=new seat*[rows];
 	
-	for(uint i=0;i<lines;++i)
+	for(uint i=0;i<rows;++i)
 		{
 			seats[i]=new seat[lines];
 		}
@@ -104,14 +121,26 @@ void room::print_room()
 #endif
 #ifndef __unix__
 							/*and here's the one for other systems (WIN)*/
-							/*case FREE:
-							  system("color 1A");
-							  cout<<"LI";
-							  system(
-							*/	
+						case FREE:
+							/*do some crazy shit with color*/
+							cout<<"L|"<<\t;
+							/*reset crazy shit with color*/
+							break;
+						case RESERVED:
+							/*do some crazy shit with color*/
+							cout<<"L|"<<\t;
+							/*reset crazy shit with color*/
+							break;
+						case HANDED:
+							/*do some crazy shit with color*/
+							cout<<"L|"<<\t;
+							/*reset crazy shit with color*/
+							break;
+						case LOCKED:
+							/*do some crazy shit with color*/
+							cout<<"L|"<<\t;
+							break;
 #endif
-							/*default:
-							  cout<<"Hier komm ich nicht an"<<endl;*/
 						}
 				}
 			cout<<endl;
@@ -120,6 +149,7 @@ void room::print_room()
 
 void room::printname()
 {
+	/*Print the name of the room (e.g. each character till "\0")*/
 	int i=0;
 	while(name[i])
 		{
@@ -127,4 +157,83 @@ void room::printname()
 			++i;
 		}
 	cout<<endl;
+}
+
+void room::lock()
+{
+	/*we need temporary variables*/
+	uint trow;
+	uint tline;
+	while(true)
+		/*We're waiting for some input, and we won't continue 'till we get valid values*/
+		{
+			cout<<"Which seat should get locked? (row, line)\n(Give 0 if you want to cancel)"<<endl;
+			cin>>trow;
+			if(trow==0)
+				{
+					cout<<"Cancelled by User request"<<endl;
+					return;
+				}
+			cin>>tline;
+			if(tline==0)
+				{
+					cout<<"Cancelled by User request"<<endl;
+					return;
+				}
+			
+			if(trow<=rows && tline<=lines)
+				{
+					break;
+				}
+			else
+				{
+					cout<<"Invalid input, please repeat";
+				}
+		}
+
+	/*
+	 * Humans start count with one, programm with zero, therefore we need to decrement the input
+	 * by one to reach the seat
+	 */
+	seats[trow-1][tline-1].state=LOCKED;
+}
+
+void room::unlock()
+{
+	/*Get the data we need for unlocking (as above)*/
+	uint trow;
+	uint tline;
+	while(true)
+		{
+			cout<<"Which seat should get unlocked? (row,line)\n(0 to cancel)"<<endl;
+			cin>>trow;
+			if(trow == 0)
+				{
+					cout<<"Canceled by user request"<<endl;
+					return;
+				}
+			cin>>tline;
+			if(tline == 0)
+				{
+					cout<<"Canceled by user request"<<endl;
+					return;
+				}
+			if(trow<=rows && tline<=lines)
+				{
+					break;
+				}
+		}
+	/*In this case, it's more efficient to first calculate our "machine"-indexes*/
+	trow-=1;
+	tline-=1;
+	
+	/*
+	 * then we need to check, whether the chosen seat
+	 * is in state LOCKED, only then we can FREE him
+	 * with this function
+	 */
+	if( seats[trow][tline].state==LOCKED)
+		{
+			seats[trow][tline].state=FREE;
+		}
 }
