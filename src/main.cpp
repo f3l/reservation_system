@@ -3,6 +3,9 @@
 #include<cstring>
 #include<cstdio>
 #include<cstdlib>
+#ifndef __unix__
+#include<windows.h>
+#endif
 using namespace std;
 
 /*And own objects*/
@@ -16,5 +19,6 @@ int main()
  */
 {
 	room theater; /*Create new object game of type game*/
+	theater.print_room();
 	return 0;
 }

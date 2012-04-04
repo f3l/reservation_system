@@ -1,10 +1,6 @@
 /* 
  * Provides a class for reservation in a rectangle-shaped room.
  * To see how it works, and what it provides, see /doc/classes
- *
- * @ghost91: You probalby want to change the call of malloc()
- * in the constructor to one of new, but i couldn't manage
- * it that way.
  */
 
 typedef unsigned int uint; /*We will need many unsignes ints*/
@@ -14,7 +10,7 @@ enum seat_state{FREE,RESERVED,HANDED,LOCKED};
 
 /* A seat consists of an enum seat_state and
  * a string for the name of the person who
- * reserved it.
+ * reserved it. (Only set in this secific case)
  */
 struct seat
 {
@@ -27,13 +23,20 @@ struct seat
 class room
 {
 public:
+
 	room();
-	//print_room();
+	void print_room();
+
 private:
 	uint rows;
 	uint lines;
+
+	/* We need a 2-dimensional array of seats, with "seats" being its "initial pointer"*/
+	seat **seats;
+	
 	char name[32];
-	//	seat **seats;
+	void printname();
+	
 };
 
 room::room()
@@ -45,14 +48,83 @@ room::room()
 	cin>>rows;
 	cout<<"How many seats per row?"<<endl;
 	cin>>lines;
-
-	/*We need a 2-dimensional dynamical array of seats*/
-	seat **seats;  
-	seats=(seat**)malloc(rows*sizeof(seat*));
-//	seats = new *seats[rows];
+	
+	/*We need to create a real dynamic array for seats*/
+	seats=new seat*[rows];
+	
 	for(uint i=0;i<lines;++i)
 		{
-			seats[i]=(seat*)malloc(lines*sizeof(seat));
+			seats[i]=new seat[lines];
 		}
+
+
+	/*And need some initial values for our seats (seat->name[0]=0,seat->state=FREE)*/
+	for(uint i=0;i<rows;++i)
+		{
+			for(uint j=0;j<lines;++j)
+				{
+					seats[i][j].name[0]=0;
+					seats[i][j].state=FREE;
+				}
+		}
+}
+
+void room::print_room()
+{
+	/*At first we need a line of numbers for the LINES, above, there's the room name*/
+	printname();
+	for(uint i=0;i<lines;++i)
+		{
+			cout<<"\t"<<i+1;
+		}
+	cout<<endl;
 	
+	/*Then, we give out each line seperatly (Number of row - Seats, later with color, if possible)*/
+	for(uint i=0;i<rows;++i)
+		{
+			cout<<i+1<<"\t";
+			for(uint j=0;j<lines;j++)
+				{
+					switch(seats[i][j].state)
+						{
+#ifdef __unix__
+							/*That's the code for UNIX-Type-terminals*/
+						case FREE:
+							cout<<"\033[00;32m"<<"L|"<<"\033[0m"<<"\t";
+							break;
+						case RESERVED:
+							cout<<"\033[033;32m"<<"L|"<<"\033[0m"<<"\t";
+							break;
+						case HANDED:
+							cout<<"\033[033;31m"<<"LI"<<"\033[0m"<<"\t";
+							break;
+						case LOCKED:
+							cout<<"\t";
+							break;
+#endif
+#ifndef __unix__
+							/*and here's the one for other systems (WIN)*/
+							/*case FREE:
+							  system("color 1A");
+							  cout<<"LI";
+							  system(
+							*/	
+#endif
+							/*default:
+							  cout<<"Hier komm ich nicht an"<<endl;*/
+						}
+				}
+			cout<<endl;
+		}
+}
+
+void room::printname()
+{
+	int i=0;
+	while(name[i])
+		{
+			cout<<name[i];
+			++i;
+		}
+	cout<<endl;
 }
