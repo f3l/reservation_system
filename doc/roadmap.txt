@@ -1,0 +1,6 @@
+generate room, fill and define seats (empty)
+print room (free => green, reserved => yellow, given_out => red)
+reserve seat
+give out seat
+free seat (only if reserved)
+get current state (necessary for almost every func)
