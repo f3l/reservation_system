@@ -1,3 +1,6 @@
+#include<iostream>
+
+
 /* 
  * Provides a class for reservation in a rectangle-shaped room.
  * To see how it works, and what it provides, see /doc/classes
@@ -235,10 +238,9 @@ void room::reserve()
 		}
 	
 	/*THEN ask for name and save in set new state*/
-	
 	cout<<"For whom should the reservation take place?"<<endl;
-	fflush(stdin);
-	cin.getline(seats[trow][tline].name,63);
+	cin.sync();
+	cout<<cin.getline(seats[trow][tline].name,63)<<endl;
 	seats[trow][tline].state=RESERVED;
 }
 	
@@ -425,6 +427,7 @@ uint room::seat_input(uint& row, uint& line) /*Asks user for the row/line he wan
 					cout<<"Canceled by user request"<<endl;
 					return 1;
 				}
+			cin.sync();
 			cin>>line;
 			if(line == 0)
 				{
@@ -435,6 +438,7 @@ uint room::seat_input(uint& row, uint& line) /*Asks user for the row/line he wan
 				{
 					break;
 				}
+			cin.sync();
 		}
 	return 0;
 }
