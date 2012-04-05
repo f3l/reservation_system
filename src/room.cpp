@@ -77,7 +77,7 @@ void room::print_room()
 							cout<<"\033[01;32m"<<"L|"<<"\033[0m"<<"\t"; /* yellow color */
 							break;
 						case HANDED:
-							cout<<"\033[033;31m"<<"LI"<<"\033[0m"<<"\t"; /* red color */
+							cout<<"\033[033;31m"<<"L|"<<"\033[0m"<<"\t"; /* red color */
 							break;
 						case LOCKED:
 							cout<<"\t";
@@ -326,9 +326,7 @@ void room::cancel()
 	while(true)
 		{
 			cout<<"Do you really want to cancel the card for"<<endl;
-			cout<<"seat "<<tline<<" in row "<<trow<<<"?"<<endl;
-		       
-			cout<<seats[trow][tline].name<<"? (y/N)"<<endl;
+			cout<<"seat "<<tline+1<<" in row "<<trow+1<<" (y/N)"<<endl;
 			cin>>affirm;
 			switch(affirm)
 				{
