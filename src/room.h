@@ -39,8 +39,6 @@ public:
 	void handout();
 	void cancel();
 
-	/*	void printname();*/
-
 	/*
 	 * Important: check whether an option is allowed!
 	 * The states in which you can perform an action are:
@@ -83,7 +81,7 @@ room::room()
 		}
 
 
-	/*And need some initial values for our seats (seat->name[0]=0,seat->state=FREE)*/
+	/*And need some initial values for our seats (seat->name="\0",seat->state=FREE)*/
 	for(uint i=0;i<rows;++i)
 		{
 			for(uint j=0;j<lines;++j)
@@ -162,16 +160,6 @@ void room::print_room()
 		}
 }
 
-/*void room::printname()
-  {*/
-	/*Print the name of the room (e.g. each character till "\0")*/
-/*	for(int i=0;name[i];++i)
-		{
-			cout<<name[i];
-		}
-	cout<<endl;
-}*/
-
 void room::lock()
 {
 	/*we need temporary variables*/
@@ -246,9 +234,7 @@ void room::reserve()
 	
 	/*THEN ask for name and save in set new state*/
 	cout<<"For whom should the reservation take place?"<<endl;
-	/*	cin.sync();
-		cin.getline(seats[trow][tline].name,63);*/
-	cin>>name;
+	cin>>seats[trow][tline].name;
 	seats[trow][tline].state=RESERVED;
 }
 	
@@ -280,11 +266,7 @@ void room::release()
 			cout<<"Do you really want to release the reservation of"<<endl;
 			cout<<"seat "<<tline<<" in row "<<trow<<endl;
 			cout<<"currently reserved for"<<endl;
-			/*for(int i=0;seats[trow][tline].name[i];++i)
-				{
-					cout<<seats[trow][tline].name[i];
-					}*/
-			cout<<name<<"? (y/N)"<<endl;
+			cout<<seats[trow][tline].name<<"? (y/N)"<<endl;
 			cin>>affirm;
 			switch(affirm)
 				{
@@ -332,11 +314,7 @@ void room::handout()
 					cout<<"Do you really want to hand out the reservation of"<<endl;
 					cout<<"seat "<<tline+1<<" in row "<<trow+1<<endl;
 					cout<<"currently reserved for"<<endl;
-					/*					for(int i=0;seats[trow][tline].name[i];++i)
-						{
-							cout<<seats[trow][tline].name[i];
-							}*/
-					cout<<name<<"? (y/N)"<<endl;
+					cout<<seats[trow][tline].name<<"? (y/N)"<<endl;
 					cin>>affirm;
 					
 					/*
@@ -398,11 +376,8 @@ void room::cancel()
 			cout<<"Do you really want to cancel the card for"<<endl;
 			cout<<"seat "<<tline<<" in row "<<trow<<endl;
 			cout<<"currently reserved for"<<endl;
-			/*for(int i=0;seats[trow][tline].name[i];++i)
-				{
-					cout<<seats[trow][tline].name[i];
-					}*/
-			cout<<name<<"? (y/N)"<<endl;
+		       
+			cout<<seats[trow][tline].name<<"? (y/N)"<<endl;
 			cin>>affirm;
 			switch(affirm)
 				{
