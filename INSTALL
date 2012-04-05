@@ -1,0 +1,5 @@
+Installation is quite simple:
+
+
+Change into the "/src/"-directory and compile both main.cpp and room.cpp
+A MAKE-File will soon be provided to make installation more comfortable.

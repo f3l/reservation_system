@@ -1,6 +1,15 @@
-C/C++ Course Project - Reservation System
+Reservation System
 
-A reservation system for rectangle rooms (e.g. small cinemas)
 
-Please don't question the sense of this project - it's only written for educational purpose.
+A programm for managing reservations for seats.
 
+What you can do:
+
+ - First, read our LICENSE
+ - If you want to USE the programm, see "/doc/invocation.txt"
+ - For compiling, see INSTALL
+ - If you would like to participate, write us a message or
+   check out our git-repository at
+   <http://www.github.com/f3l/reservation-system>
+   Specifications of classes and/or routines can be found in the
+   /doc/directory
