@@ -5,7 +5,10 @@
  * pointers/refs (we'll do that later)
  * Same with reserved-affirmation
  */
-
+#include <iostream>
+#ifndef __unix__
+#include<windows.h>
+#endif
 typedef unsigned int uint; /*We will need many unsignes ints*/
 
 /*A seat can have the states "free","reserved","handed" or "locked" (e.g. seat broken or doesn't exist)*/
@@ -107,6 +110,14 @@ void room::print_room()
 			cout<<i+1<<"\t";
 			for(uint j=0;j<lines;j++)
 				{
+#ifndef __unix__
+					HANDLE hstdout = GetStdHandle( STD_OUTPUT_HANDLE );
+
+					// Remember how things were when we started
+					CONSOLE_SCREEN_BUFFER_INFO csbi;
+					GetConsoleScreenBufferInfo( hstdout, &csbi );
+#endif
+
 					switch(seats[i][j].state)
 						{
 #ifdef __unix__
@@ -127,26 +138,25 @@ void room::print_room()
 #ifndef __unix__
 							/*and here's the one for other systems (WIN)*/
 						case FREE:
-							/*do some crazy shit with color*/
+							SetConsoleTextAttribute( hstdout, 0x0A);
 							cout<<"L|"<<"\t";
-							/*reset crazy shit with color*/
 							break;
 						case RESERVED:
-							/*do some crazy shit with color*/
+							SetConsoleTextAttribute( hstdout, 0x0E);
 							cout<<"L|"<<"\t";
-							/*reset crazy shit with color*/
 							break;
 						case HANDED:
-							/*do some crazy shit with color*/
+							SetConsoleTextAttribute( hstdout, 0x0C);
 							cout<<"L|"<<"\t";
-							/*reset crazy shit with color*/
 							break;
 						case LOCKED:
-							/*do some crazy shit with color*/
-							cout<<"L|"<<"\t";
+							cout<<"\t";
 							break;
 #endif
 						}
+#ifndef __unix__
+				SetConsoleTextAttribute( hstdout, csbi.wAttributes );
+#endif
 				}
 			cout<<endl;
 		}
