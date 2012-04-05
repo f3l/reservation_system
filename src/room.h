@@ -35,6 +35,7 @@ public:
 	void release();
 	void handout();
 	void cancel();
+
 	/*
 	 * Important: check whether an option is allowed!
 	 * The states in which you can perform an action are:
@@ -56,7 +57,7 @@ private:
 	
 	char name[32];
 	void printname();
-	
+	uint seat_input(uint&, uint&);
 };
 
 room::room()
@@ -153,11 +154,9 @@ void room::print_room()
 void room::printname()
 {
 	/*Print the name of the room (e.g. each character till "\0")*/
-	int i=0;
-	while(name[i])
+	for(int i=0;name[i];++i)
 		{
 			cout<<name[i];
-			++i;
 		}
 	cout<<endl;
 }
@@ -167,31 +166,14 @@ void room::lock()
 	/*we need temporary variables*/
 	uint trow;
 	uint tline;
-	while(true)
-		/*We're waiting for some input, and we won't continue 'till we get valid values*/
+	cout<<"Lock Seat"<<endl;
+	/*
+	 * If user wants to cancel, end routine
+	 * (seat_input returns False if input is succesful)
+	 */
+	if(seat_input(trow,tline))
 		{
-			cout<<"Which seat should get locked? (row, line)\n(Give 0 if you want to cancel)"<<endl;
-			cin>>trow;
-			if(trow==0)
-				{
-					cout<<"Cancelled by User request"<<endl;
-					return;
-				}
-			cin>>tline;
-			if(tline==0)
-				{
-					cout<<"Cancelled by User request"<<endl;
-					return;
-				}
-			
-			if(trow<=rows && tline<=lines)
-				{
-					break;
-				}
-			else
-				{
-					cout<<"Invalid input, please repeat";
-				}
+			return;
 		}
 
 	/*
@@ -206,26 +188,13 @@ void room::unlock()
 	/*Get the data we need for unlocking (as above)*/
 	uint trow;
 	uint tline;
-	while(true)
+	cout<<"Unlock Seat"<<endl;
+	if(seat_input(trow,tline))
 		{
-			cout<<"Which seat should get unlocked? (row,line)\n(0 to cancel)"<<endl;
-			cin>>trow;
-			if(trow == 0)
-				{
-					cout<<"Canceled by user request"<<endl;
-					return;
-				}
-			cin>>tline;
-			if(tline == 0)
-				{
-					cout<<"Canceled by user request"<<endl;
-					return;
-				}
-			if(trow<=rows && tline<=lines)
-				{
-					break;
-				}
+			return;
 		}
+
+
 	/*In this case, it's more efficient to first calculate our "machine"-indexes*/
 	trow-=1;
 	tline-=1;
@@ -247,26 +216,12 @@ void room::reserve()
 	/*the usual input at first*/
 	uint trow;
 	uint tline;
-	while(true)
+	cout<<"Reserve Seat"<<endl;
+	if(seat_input(trow,tline))
 		{
-			cout<<"Which seat should get reserved? (row,line)\n(0 to cancel)"<<endl;
-			cin>>trow;
-			if(trow == 0)
-				{
-					cout<<"Canceled by user request"<<endl;
-					return;
-				}
-			cin>>tline;
-			if(tline == 0)
-				{
-					cout<<"Canceled by user request"<<endl;
-					return;
-				}
-			if(trow<=rows && tline<=lines)
-				{
-					break;
-				}
+			return;
 		}
+
 	/*In this case, it's more efficient to first calculate our "machine"-indexes*/
 	trow-=1;
 	tline-=1;
@@ -289,26 +244,12 @@ void room::release()
 	/*the usual input at first*/
 	uint trow;
 	uint tline;
-	while(true)
+	cout<<"Cancel reservation"<<endl;
+	if(seat_input(trow,tline))
 		{
-			cout<<"The reservation of which seat should get deleted? (row,line)\n(0 to cancel)"<<endl;
-			cin>>trow;
-			if(trow == 0)
-				{
-					cout<<"Canceled by user request"<<endl;
-					return;
-				}
-			cin>>tline;
-			if(tline == 0)
-				{
-					cout<<"Canceled by user request"<<endl;
-					return;
-				}
-			if(trow<=rows && tline<=lines)
-				{
-					break;
-				}
+			return;
 		}
+
 	/*In this case, it's more efficient to first calculate our "machine"-indexes*/
 	trow-=1;
 	tline-=1;
@@ -356,32 +297,18 @@ void room::handout()
 	/*usual input*/
 	uint trow;
 	uint tline;
-	while(true)
+	cout<<"Hand out ticket"<<endl;
+	if(seat_input(trow,tline)
 		{
-			cout<<"Which seat is the handed out ticket for? (row,line)\n(0 to cancel)"<<endl;
-			cin>>trow;
-			if(trow == 0)
-				{
-					cout<<"Canceled by user request"<<endl;
-					return;
-				}
-			cin>>tline;
-			if(tline == 0)
-				{
-					cout<<"Canceled by user request"<<endl;
-					return;
-				}
-			if(trow<=rows && tline<=lines)
-				{
-					break;
-				}
+			return;
 		}
+
 	/*In this case, it's more efficient to first calculate our "machine"-indexes*/
 	trow-=1;
 	tline-=1;
 	
 	/*
-	 * THis time, we check whether it is free or reserverd and instantly
+	 * This time, we check whether it is free or reserverd and instantly
 	 * ask for verification in the later case
 	 */
 	if( seats[trow][tline].state==RESERVED)
@@ -435,26 +362,12 @@ void room::cancel()
 	/*the usual input at first*/
 	uint trow;
 	uint tline;
-	while(true)
+	cout<<"Cancel bought cards"<<endl;
+	if(seat_input(trow,tline)
 		{
-			cout<<"The card of which seat should be taken back? (row,line)\n(0 to cancel)"<<endl;
-			cin>>trow;
-			if(trow == 0)
-				{
-					cout<<"Canceled by user request"<<endl;
-					return;
-				}
-			cin>>tline;
-			if(tline == 0)
-				{
-					cout<<"Canceled by user request"<<endl;
-					return;
-				}
-			if(trow<=rows && tline<=lines)
-				{
-					break;
-				}
+			return;
 		}
+
 	/*In this case, it's more efficient to first calculate our "machine"-indexes*/
 	trow-=1;
 	tline-=1;
@@ -495,4 +408,30 @@ void room::cancel()
 					/*Otherwise, we give it another try*/
 				}
 		}
+}
+
+
+uint room::seat_input(uint& row, uint& line) /*Asks user for the row/line he wants to choose*/
+{
+	while(true)
+		{
+			cout<<"Which sea? (row,line)\n(0 to cancel)"<<endl;
+			cin>>row;
+			if(row == 0)
+				{
+					cout<<"Canceled by user request"<<endl;
+					return 1;
+				}
+			cin>>line;
+			if(line == 0)
+				{
+					cout<<"Canceled by user request"<<endl;
+					return 1;
+				}
+			if(row<=rows && line<=lines)
+				{
+					break;
+				}
+		}
+	return 0;
 }
