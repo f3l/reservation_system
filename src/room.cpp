@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <limits>
 
 /* We need some windows specific stuff if we want to be able to set colors in windows */
 #ifdef _WIN32
