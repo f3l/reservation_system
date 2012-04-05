@@ -21,7 +21,7 @@ enum seat_state{FREE,RESERVED,HANDED,LOCKED};
 struct seat
 {
 	seat_state state;
-	char name[64];
+	string name;
 };
 	
 
@@ -39,7 +39,7 @@ public:
 	void handout();
 	void cancel();
 
-	void printname();
+	/*	void printname();*/
 
 	/*
 	 * Important: check whether an option is allowed!
@@ -60,7 +60,7 @@ private:
 	/* We need a 2-dimensional array of seats, with "seats" being its "initial pointer"*/
 	seat **seats;
 	
-	char name[32];
+	string name;
 	uint seat_input(uint&, uint&);
 };
 
@@ -68,7 +68,7 @@ room::room()
 {
 	/*When a new room gets created, we need some basic information about it*/
 	cout<<"Name the room:"<<endl;
-	cin.getline(name,31);
+	cin>>name;
 	cout<<"How many rows does the room have?"<<endl;
 	cin>>rows;
 	cout<<"How many seats per row?"<<endl;
@@ -88,7 +88,7 @@ room::room()
 		{
 			for(uint j=0;j<lines;++j)
 				{
-					seats[i][j].name[0]=0;
+					seats[i][j].name="\0";
 					seats[i][j].state=FREE;
 				}
 		}
@@ -97,7 +97,7 @@ room::room()
 void room::print_room()
 {
 	/*At first we need a line of numbers for the LINES, above, there's the room name*/
-	printname();
+	cout<<name;
 	for(uint i=0;i<lines;++i)
 		{
 			cout<<"\t"<<i+1;
@@ -162,15 +162,15 @@ void room::print_room()
 		}
 }
 
-void room::printname()
-{
+/*void room::printname()
+  {*/
 	/*Print the name of the room (e.g. each character till "\0")*/
-	for(int i=0;name[i];++i)
+/*	for(int i=0;name[i];++i)
 		{
 			cout<<name[i];
 		}
 	cout<<endl;
-}
+}*/
 
 void room::lock()
 {
@@ -246,8 +246,9 @@ void room::reserve()
 	
 	/*THEN ask for name and save in set new state*/
 	cout<<"For whom should the reservation take place?"<<endl;
-	cin.sync();
-	cin.getline(seats[trow][tline].name,63);
+	/*	cin.sync();
+		cin.getline(seats[trow][tline].name,63);*/
+	cin>>name;
 	seats[trow][tline].state=RESERVED;
 }
 	
@@ -279,11 +280,11 @@ void room::release()
 			cout<<"Do you really want to release the reservation of"<<endl;
 			cout<<"seat "<<tline<<" in row "<<trow<<endl;
 			cout<<"currently reserved for"<<endl;
-			for(int i=0;seats[trow][tline].name[i];++i)
+			/*for(int i=0;seats[trow][tline].name[i];++i)
 				{
 					cout<<seats[trow][tline].name[i];
-				}
-			cout<<"? (y/N)"<<endl;
+					}*/
+			cout<<name<<"? (y/N)"<<endl;
 			cin>>affirm;
 			switch(affirm)
 				{
@@ -295,7 +296,7 @@ void room::release()
 					/*If he does, we release the seat and exit*/
 				case 'Y':
 				case 'y':
-					seats[trow][tline].name[0]=0;
+					seats[trow][tline].name="\0";
 					seats[trow][tline].state=FREE;
 					return;
 					break;
@@ -331,11 +332,11 @@ void room::handout()
 					cout<<"Do you really want to hand out the reservation of"<<endl;
 					cout<<"seat "<<tline+1<<" in row "<<trow+1<<endl;
 					cout<<"currently reserved for"<<endl;
-					for(int i=0;seats[trow][tline].name[i];++i)
+					/*					for(int i=0;seats[trow][tline].name[i];++i)
 						{
 							cout<<seats[trow][tline].name[i];
-						}
-					cout<<"? (y/N)"<<endl;
+							}*/
+					cout<<name<<"? (y/N)"<<endl;
 					cin>>affirm;
 					
 					/*
@@ -359,7 +360,7 @@ void room::handout()
 	if( (seats[trow][tline].state==FREE) || (seats[trow][tline].state=RESERVED))
 		{
 			seats[trow][tline].state=HANDED;
-			seats[trow][tline].name[0]=0;
+			seats[trow][tline].name="\0";
 		}
 	else
 		{
@@ -397,11 +398,11 @@ void room::cancel()
 			cout<<"Do you really want to cancel the card for"<<endl;
 			cout<<"seat "<<tline<<" in row "<<trow<<endl;
 			cout<<"currently reserved for"<<endl;
-			for(int i=0;seats[trow][tline].name[i];++i)
+			/*for(int i=0;seats[trow][tline].name[i];++i)
 				{
 					cout<<seats[trow][tline].name[i];
-				}
-			cout<<"? (y/N)"<<endl;
+					}*/
+			cout<<name<<"? (y/N)"<<endl;
 			cin>>affirm;
 			switch(affirm)
 				{
@@ -413,7 +414,7 @@ void room::cancel()
 					/*If he does, we release the seat and exit*/
 				case 'Y':
 				case 'y':
-					seats[trow][tline].name[0]=0;
+					seats[trow][tline].name="\0";
 					seats[trow][tline].state=FREE;
 					return;
 					break;
