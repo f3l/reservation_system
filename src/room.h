@@ -36,6 +36,9 @@ public:
 	void handout();
 	void cancel();
 
+	void printname();
+
+
 	/*
 	 * Important: check whether an option is allowed!
 	 * The states in which you can perform an action are:
@@ -56,7 +59,6 @@ private:
 	seat **seats;
 	
 	char name[32];
-	void printname();
 	uint seat_input(uint&, uint&);
 };
 
@@ -234,7 +236,9 @@ void room::reserve()
 		}
 	
 	/*THEN ask for name and save in set new state*/
+	
 	cout<<"For whom should the reservation take place?"<<endl;
+	fflush(stdin);
 	cin.getline(seats[trow][tline].name,63);
 	seats[trow][tline].state=RESERVED;
 }
@@ -298,7 +302,7 @@ void room::handout()
 	uint trow;
 	uint tline;
 	cout<<"Hand out ticket"<<endl;
-	if(seat_input(trow,tline)
+	if(seat_input(trow,tline))
 		{
 			return;
 		}
@@ -363,7 +367,7 @@ void room::cancel()
 	uint trow;
 	uint tline;
 	cout<<"Cancel bought cards"<<endl;
-	if(seat_input(trow,tline)
+	if(seat_input(trow,tline))
 		{
 			return;
 		}
