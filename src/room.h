@@ -118,7 +118,7 @@ void room::print_room()
 							cout<<"\033[00;32m"<<"L|"<<"\033[0m"<<"\t";
 							break;
 						case RESERVED:
-							cout<<"\033[033;32m"<<"L|"<<"\033[0m"<<"\t";
+							cout<<"\033[01;32m"<<"L|"<<"\033[0m"<<"\t";
 							break;
 						case HANDED:
 							cout<<"\033[033;31m"<<"LI"<<"\033[0m"<<"\t";
@@ -240,7 +240,7 @@ void room::reserve()
 	/*THEN ask for name and save in set new state*/
 	cout<<"For whom should the reservation take place?"<<endl;
 	cin.sync();
-	cout<<cin.getline(seats[trow][tline].name,63)<<endl;
+	cin.getline(seats[trow][tline].name,63);
 	seats[trow][tline].state=RESERVED;
 }
 	
@@ -427,7 +427,6 @@ uint room::seat_input(uint& row, uint& line) /*Asks user for the row/line he wan
 					cout<<"Canceled by user request"<<endl;
 					return 1;
 				}
-			cin.sync();
 			cin>>line;
 			if(line == 0)
 				{
@@ -438,7 +437,6 @@ uint room::seat_input(uint& row, uint& line) /*Asks user for the row/line he wan
 				{
 					break;
 				}
-			cin.sync();
 		}
 	return 0;
 }
