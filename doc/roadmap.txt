@@ -1,6 +1,5 @@
-generate room, fill and define seats (empty)
-print room (free => green, reserved => yellow, given_out => red)
-reserve seat
-give out seat
-free seat (only if reserved)
-get current state (necessary for almost every func)
+current ━┳━ implement class chainlist ━┓
+         ┣━ split up class seat ━━━━━━━┻━ add multi-room support ━━ rework menu ━┓
+         ┣━ implement export/import ━┓                                           ┃
+         ┣━ create config ━━━━━━━━━━━┻━ implement database ━━━━━━━━━━━━━━━━━━━━━━┫
+         ┗━ improve documentation ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┻━ v1.0 ━━ GUI ━━ ?
