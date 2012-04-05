@@ -3,8 +3,8 @@
 #include<cstring>
 #include<cstdio>
 #include<cstdlib>
-#ifndef __unix__
-#include<windows.h>
+#ifdef _WIN32
+#include <windows.h>
 #endif
 using namespace std;
 

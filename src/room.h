@@ -1,6 +1,3 @@
-#include<iostream>
-
-
 /* 
  * Provides a class for reservation in a rectangle-shaped room.
  * To see how it works, and what it provides, see /doc/classes
@@ -9,7 +6,7 @@
  * Same with reserved-affirmation
  */
 #include <iostream>
-#ifndef __unix__
+#ifdef _WIN32
 #include<windows.h>
 #endif
 typedef unsigned int uint; /*We will need many unsignes ints*/
@@ -113,7 +110,7 @@ void room::print_room()
 			cout<<i+1<<"\t";
 			for(uint j=0;j<lines;j++)
 				{
-#ifndef __unix__
+#ifdef _WIN32
 					HANDLE hstdout = GetStdHandle( STD_OUTPUT_HANDLE );
 
 					// Remember how things were when we started
@@ -123,7 +120,7 @@ void room::print_room()
 
 					switch(seats[i][j].state)
 						{
-#ifdef __unix__
+#ifndef _WIN32
 							/*That's the code for UNIX-Type-terminals*/
 						case FREE:
 							cout<<"\033[00;32m"<<"L|"<<"\033[0m"<<"\t"; /* green color */
@@ -138,7 +135,7 @@ void room::print_room()
 							cout<<"\t";
 							break;
 #endif
-#ifndef __unix__
+#ifdef _WIN32
 							/*and here's the one for other systems (WIN)*/
 						case FREE:
 							SetConsoleTextAttribute( hstdout, 0x0A); /* green color */
@@ -157,7 +154,7 @@ void room::print_room()
 							break;
 #endif
 						}
-#ifndef __unix__
+#ifdef _WIN32
 				SetConsoleTextAttribute( hstdout, csbi.wAttributes );
 #endif
 				}
