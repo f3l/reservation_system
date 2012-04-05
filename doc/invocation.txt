@@ -1,0 +1,126 @@
+HOW TO USE reservation_system
+
+
+0. Introduction
+
+Several questions appear before almost every event with fixed a contingent of
+tickets limited to one specific seat each:
+
+How to manage reservations?
+Where do we get a simple overview?
+Which seats aren't available any more?
+
+Seems as if you found the answer.
+In this document, we will work a lot with examples. Our scenario is a small
+cinema, which has ten rows and 8 seats per row. The last two rows only consist
+of 6 seats, because they are on one level to the door.
+Of course, the programs not only written for cinemas/theaters/…, you could even use it for hotel rooms, or even lockers, with only small changes (if you need a "personalized" version, contact us).
+
+
+1. Terminology
+
+A "room" (or "context") is considered a single purpose for saving reservations.
+EXAMPLE:
+        Today our cinema shows two movies, "foo" for children in the afternoon,
+        and the movie "baz" gets screened in the evening. Even though both of
+        them take place in the same PHYSICAL room, we must implement them as
+        two different room.
+NOTE: In the current version (v0.1.1), it's only possible to create a single
+      context. The feature of creating new contexts and switching between them
+      is under heavy development.
+
+A "seat" is - well obviously one something that can be sold/rented/whatever.
+They can be in four different states: free, reserved,handed, or locked
+EXAMPLE: At a short watch through the cinema, the owner recognizes, that one
+         of the seat is damaged. The appropriate state for this seat would be
+         "LOCKED", it's impossible to sell a ticket for it, and it doesn't even
+         appear in any overview.
+         The other three states should be self-explanatory ("HANDED" is the
+         equivalent to "sold" or "handed out")
+
+A "coordinate" of a seat is its row- and line.
+
+2. Basic usage
+
+
+2.1 After start 
+
+After start, the program automatically creates a new room, and asks you for
+some information.
+EXAMPLE:  The name of our evening-show would be "baz" (as this is significant
+          enough). We need to create a room with 10 rows and 8 lines.
+          Currently, reserve_ticket creates new rooms in the form of a
+          completely filled rectangle. 
+          Therefore we need to manually hide the four seats in the back by
+          locking them. (See section 2.2.7)
+NOTE:     A (physical) room-dependant system for automatic invocation of
+          predefined layouts is in planning-stadium.
+
+
+2.2 The Menu
+
+Afterwards you will be see a menu. You can use the specific listed items by
+simply typing the number and then hitting <ENTER>
+If you are asked for coordinates, and want to cancel the action, just type
+0 and <ENTER>
+
+2.2.1 View Room
+
+Shows the current room. You will see something similar to this:
+
+baz
+        1       2
+1      L|      L|
+2      L|      L|
+
+each "L|" is a representation for one seat, and can be displayed in green
+(free), yellow (reserved), or red (handed). A locked seat won't show up (except
+for the resulting hole in the graphic).
+
+2.2.2 Sell ticket
+
+Used to sell a ticket for a free or reserved seats. Asks for the coordinates.
+If the seat is reserved, you will get a message with the location, and the
+name of the person the seat is reserved for. You will have to confirm.
+A ticket can be sold only if the current state is FREE or RESERVED
+
+2.2.3 Reserve ticket
+
+Asks for coordinates, then for the name of the person the tickets should be
+reserved for. You can only reserve a seat that currently is free.
+
+2.2.4 Hand out reserved ticket
+
+Same as 2.2.2
+
+2.2.5 Cancel reservation
+
+Wants the coordinates. The current state must be "RESERVED".
+
+2.2.6 Take back ticket
+
+Usually, there is some kind of "No return of sold tickets", but if there are
+real needs to take back tickets, you will need this item. Just give it the
+coordinates, and then approve your decision.
+
+2.2.7 Make seat unavailable
+
+Used for two purposes:
+1. Remove non existing seats
+EXAMPLE:  Our owner would need to lock the seats 7 and 8 in rows 9 and 10, each
+          one separately (that sucks, I know, we're on to it)
+2. Remove unusable seats
+EXAMPLE:  Well, maybe someone was just too fat and his chair broke down (By the
+          way, would you use command number 6 in that case??)
+
+NOTE:     RESERVATIONS or HANDOUTS do net get preserved! You will need to
+          re-process them manually!
+
+2.2.8 Make seat available
+
+EXAMPLE:  If the owner recognized the guy wasn't THAT fat...
+
+2.2.0 EXIT
+
+Exits program, after asking for confirmation.
+NOTE: Currently, there's no possibility to save the current state of a room!
