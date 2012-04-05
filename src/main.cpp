@@ -1,14 +1,12 @@
-/*Include basic libraries*/
+/* Include basic headers */
 #include<iostream>
-#include<cstring>
-#include<cstdio>
 #include<cstdlib>
 #ifdef _WIN32
 #include <windows.h>
 #endif
 using namespace std;
 
-/*And own objects*/
+/* And own headers needed */
 #include "room.h"
 
 void print_menu();
@@ -21,7 +19,7 @@ void end_programm();
 
 int main()
 {
-	room theater; /*Create new object game of type game*/
+	room theater; /* Create new object game of type game */
 	uint menu;
 	while(true)
 		{
@@ -32,7 +30,7 @@ int main()
 				case 1:
 					theater.print_room();
 					break;
-					/*Internal, sell ticket and hand out reserved ticket are equal*/
+					/* Internal, sell ticket and hand out reserved ticket are equal */
 				case 2:
 				case 4:
 					theater.handout();
@@ -63,7 +61,7 @@ int main()
 }
 
 
-/*prints main-menu (nothing more, nothing less)*/
+/* Prints main-menu (nothing more, nothing less) */
 void print_menu()
 {
 	cout<<"Possible choices:"<<endl;
@@ -80,7 +78,7 @@ void print_menu()
 	return;
 }
 
-/*asks for verification, if succesfull terminates process*/
+/* Asks for verification, if succesfull terminates process */
 
 void end_programm()
 {
