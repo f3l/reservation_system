@@ -126,13 +126,13 @@ void room::print_room()
 #ifdef __unix__
 							/*That's the code for UNIX-Type-terminals*/
 						case FREE:
-							cout<<"\033[00;32m"<<"L|"<<"\033[0m"<<"\t";
+							cout<<"\033[00;32m"<<"L|"<<"\033[0m"<<"\t"; /* green color */
 							break;
 						case RESERVED:
-							cout<<"\033[01;32m"<<"L|"<<"\033[0m"<<"\t";
+							cout<<"\033[01;32m"<<"L|"<<"\033[0m"<<"\t"; /* yellow color */
 							break;
 						case HANDED:
-							cout<<"\033[033;31m"<<"LI"<<"\033[0m"<<"\t";
+							cout<<"\033[033;31m"<<"LI"<<"\033[0m"<<"\t"; /* red color */
 							break;
 						case LOCKED:
 							cout<<"\t";
@@ -141,15 +141,15 @@ void room::print_room()
 #ifndef __unix__
 							/*and here's the one for other systems (WIN)*/
 						case FREE:
-							SetConsoleTextAttribute( hstdout, 0x0A);
+							SetConsoleTextAttribute( hstdout, 0x0A); /* green color */
 							cout<<"L|"<<"\t";
 							break;
 						case RESERVED:
-							SetConsoleTextAttribute( hstdout, 0x0E);
+							SetConsoleTextAttribute( hstdout, 0x0E); /* yellow color */
 							cout<<"L|"<<"\t";
 							break;
 						case HANDED:
-							SetConsoleTextAttribute( hstdout, 0x0C);
+							SetConsoleTextAttribute( hstdout, 0x0C); /* red color */
 							cout<<"L|"<<"\t";
 							break;
 						case LOCKED:
