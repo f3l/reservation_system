@@ -59,9 +59,6 @@ int main()
 					cout<<"Invalid Input"<<endl;
 				}
 		}
-#ifndef __unix__
-	system(halt);
-#endif
 	return 0;
 }
 
