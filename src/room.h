@@ -322,7 +322,7 @@ void room::handout()
 			while(true)
 				{
 					cout<<"Do you really want to hand out the reservation of"<<endl;
-					cout<<"seat "<<tline<<" in row "<<trow<<endl;
+					cout<<"seat "<<tline+1<<" in row "<<trow+1<<endl;
 					cout<<"currently reserved for"<<endl;
 					for(int i=0;seats[trow][tline].name[i];++i)
 						{
@@ -420,7 +420,7 @@ uint room::seat_input(uint& row, uint& line) /*Asks user for the row/line he wan
 {
 	while(true)
 		{
-			cout<<"Which sea? (row,line)\n(0 to cancel)"<<endl;
+			cout<<"Which seat? (row,line)\n(0 to cancel)"<<endl;
 			cin>>row;
 			if(row == 0)
 				{
