@@ -216,7 +216,7 @@ void room::release()
 	while(true)
 		{
 			cout<<"Do you really want to release the reservation of"<<endl;
-			cout<<"seat "<<tline<<" in row "<<trow<<endl;
+			cout<<"seat "<<tline+1<<" in row "<<trow+1<<endl;
 			cout<<"currently reserved for"<<endl;
 			cout<<seats[trow][tline].name<<"? (y/N)"<<endl;
 			cin>>affirm;
@@ -326,8 +326,7 @@ void room::cancel()
 	while(true)
 		{
 			cout<<"Do you really want to cancel the card for"<<endl;
-			cout<<"seat "<<tline<<" in row "<<trow<<endl;
-			cout<<"currently reserved for"<<endl;
+			cout<<"seat "<<tline<<" in row "<<trow<<<"?"<<endl;
 		       
 			cout<<seats[trow][tline].name<<"? (y/N)"<<endl;
 			cin>>affirm;
