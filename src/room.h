@@ -1,3 +1,6 @@
+#include<iostream>
+
+
 /* 
  * Provides a class for reservation in a rectangle-shaped room.
  * To see how it works, and what it provides, see /doc/classes
@@ -126,7 +129,7 @@ void room::print_room()
 							cout<<"\033[00;32m"<<"L|"<<"\033[0m"<<"\t";
 							break;
 						case RESERVED:
-							cout<<"\033[033;32m"<<"L|"<<"\033[0m"<<"\t";
+							cout<<"\033[01;32m"<<"L|"<<"\033[0m"<<"\t";
 							break;
 						case HANDED:
 							cout<<"\033[033;31m"<<"LI"<<"\033[0m"<<"\t";
@@ -245,9 +248,8 @@ void room::reserve()
 		}
 	
 	/*THEN ask for name and save in set new state*/
-	
 	cout<<"For whom should the reservation take place?"<<endl;
-	fflush(stdin);
+	cin.sync();
 	cin.getline(seats[trow][tline].name,63);
 	seats[trow][tline].state=RESERVED;
 }
@@ -330,7 +332,7 @@ void room::handout()
 			while(true)
 				{
 					cout<<"Do you really want to hand out the reservation of"<<endl;
-					cout<<"seat "<<tline<<" in row "<<trow<<endl;
+					cout<<"seat "<<tline+1<<" in row "<<trow+1<<endl;
 					cout<<"currently reserved for"<<endl;
 					for(int i=0;seats[trow][tline].name[i];++i)
 						{
@@ -428,7 +430,7 @@ uint room::seat_input(uint& row, uint& line) /*Asks user for the row/line he wan
 {
 	while(true)
 		{
-			cout<<"Which sea? (row,line)\n(0 to cancel)"<<endl;
+			cout<<"Which seat? (row,line)\n(0 to cancel)"<<endl;
 			cin>>row;
 			if(row == 0)
 				{
