@@ -38,7 +38,6 @@ public:
 
 	void printname();
 
-
 	/*
 	 * Important: check whether an option is allowed!
 	 * The states in which you can perform an action are:
@@ -129,22 +128,22 @@ void room::print_room()
 							/*and here's the one for other systems (WIN)*/
 						case FREE:
 							/*do some crazy shit with color*/
-							cout<<"L|"<<\t;
+							cout<<"L|"<<"\t";
 							/*reset crazy shit with color*/
 							break;
 						case RESERVED:
 							/*do some crazy shit with color*/
-							cout<<"L|"<<\t;
+							cout<<"L|"<<"\t";
 							/*reset crazy shit with color*/
 							break;
 						case HANDED:
 							/*do some crazy shit with color*/
-							cout<<"L|"<<\t;
+							cout<<"L|"<<"\t";
 							/*reset crazy shit with color*/
 							break;
 						case LOCKED:
 							/*do some crazy shit with color*/
-							cout<<"L|"<<\t;
+							cout<<"L|"<<"\t";
 							break;
 #endif
 						}
