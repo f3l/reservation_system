@@ -45,6 +45,7 @@ int main()
 {
 	linked_list<room*> theater(1); /* Create a linked list of rooms named theater */
 	theater[0]->content = new room();
+	node<room*>* current_room=theater[0]; /*We need a pointer for our different rooms*/
 
 	uint menu;
 	while(true)
@@ -54,30 +55,30 @@ int main()
 			switch(menu)
 				{
 				case 1:
-					theater[0]->content->print_room();
+					current_room->content->print_room();
 					break;
 					/* Internal, sell ticket and hand out reserved ticket are equal */
 				case 2:
 				case 4:
-					theater[0]->content->handout();
+					current_room->content->handout();
 					break;
 				case 3:
-					theater[0]->content->reserve();
+					current_room->content->reserve();
 					break;
 				case 5:
-					theater[0]->content->release();
+					current_room->content->release();
 					break;
 				case 6:
-					theater[0]->content->cancel();
+					current_room->content->cancel();
 					break;
 				case 7:
-					theater[0]->content->lock();
+					current_room->content->lock();
 					break;
 				case 8:
-					theater[0]->content->unlock();
+					current_room->content->unlock();
 					break;
 				case 0:
-					delete theater[0]->content;
+					delete current_room->content;
 					end_program();
 					break;
 				default:
