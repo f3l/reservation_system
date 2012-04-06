@@ -30,6 +30,7 @@ using namespace std;
 
 /* And own headers needed */
 #include "room.h"
+#include "linked_list.h"
 
 void print_menu();
 void end_programm();
@@ -41,7 +42,8 @@ void end_programm();
 
 int main()
 {
-	room theater; /* Create new object game of type game */
+	linked_list<room*> theater(1); /* Create our initial room */
+	theater[0]->content = new room();
 	uint menu;
 	while(true)
 		{
@@ -50,27 +52,27 @@ int main()
 			switch(menu)
 				{
 				case 1:
-					theater.print_room();
+					theater[0]->content->print_room();
 					break;
 					/* Internal, sell ticket and hand out reserved ticket are equal */
 				case 2:
 				case 4:
-					theater.handout();
+					theater[0]->content->handout();
 					break;
 				case 3:
-					theater.reserve();
+					theater[0]->content->reserve();
 					break;
 				case 5:
-					theater.release();
+					theater[0]->content->release();
 					break;
 				case 6:
-					theater.cancel();
+					theater[0]->content->cancel();
 					break;
 				case 7:
-					theater.lock();
+					theater[0]->content->lock();
 					break;
 				case 8:
-					theater.unlock();
+					theater[0]->content->unlock();
 					break;
 				case 0:
 					end_programm();
