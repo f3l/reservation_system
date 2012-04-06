@@ -120,6 +120,7 @@ void linked_list<T>::append_node()
 	while(pcurrent_node->m_pnext)
 		pcurrent_node = pcurrent_node->m_pnext;
 	pcurrent_node->m_pnext = pnew_node;
+	m_plast = pnew_node;
 	m_length++;
 	return;
 }
@@ -146,6 +147,8 @@ void linked_list<T>::insert_node(unsigned int pos)
 		}
 		pnew_node->m_pnext = pcurrent_node->m_pnext;
 		pcurrent_node->m_pnext = pnew_node;
+		if(m_plast == pcurrent_node)
+			m_plast = pnew_node;
 	}
 	m_length++;
 
@@ -174,6 +177,8 @@ void linked_list<T>::delete_node(unsigned int pos)
 		}
 		ptemp = pcurrent_node->m_pnext;
 		pcurrent_node->m_pnext = ptemp->m_pnext;
+		if(m_plast == ptemp)
+			m_plast = pcurrent_node;
 		delete ptemp;
 	}
 	m_length--;
