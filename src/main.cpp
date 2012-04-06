@@ -34,7 +34,7 @@ using namespace std;
 #include "linked_list.h"
 
 void print_menu();
-void end_program();
+int end_program();
 
 /*
  * Creates a new cinema (or else) room with given seats per rows and rows,
@@ -78,8 +78,11 @@ int main()
 					current_room->content->unlock();
 					break;
 				case 0:
-					delete current_room->content;
-					end_program();
+					if(end_program())
+						{
+							delete current_room->content;
+							exit(0);
+						}
 					break;
 				default:
 					cout<<"Invalid Input"<<endl;
@@ -108,24 +111,24 @@ void print_menu()
 
 /* Asks for verification, if succesfull terminates process */
 
-void end_program()
+int end_program()
 {
 	char confirm='n';
 	while(true)
 		{
 			cout<<"Do you really want to quit program?(y/N)"<<endl;
-			cout<<"Your room will be lost!"<<endl;
+			cout<<"Your rooms will be lost!"<<endl;
 			cin>>confirm;
 			switch(confirm)
 				{
 				case 'N':
 				case 'n':
-					return;
+					return 0;
 					break;
 				case 'Y':
 				case 'y':
 					cout<<"Exiting"<<endl;
-					exit(0);
+					return 1;
 					break;
 				default:
 					cout<<"Invalid Input!"<<endl;
