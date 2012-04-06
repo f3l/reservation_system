@@ -1,5 +1,5 @@
 /*
- *  Reservation System - A programm to manage rect-shaped seatings
+ *  Reservation System - A program to manage rect-shaped seatings
  *  Copyright (C) 2012 Johannes Loher / Oliver Rümpelein
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ using namespace std;
 #include "linked_list.h"
 
 void print_menu();
-void end_programm();
+void end_program();
 
 /*
  * Creates a new cinema (or else) room with given seats per rows and rows,
@@ -78,7 +78,7 @@ int main()
 					break;
 				case 0:
 					delete theater[0]->content;
-					end_programm();
+					end_program();
 					break;
 				default:
 					cout<<"Invalid Input"<<endl;
@@ -107,12 +107,12 @@ void print_menu()
 
 /* Asks for verification, if succesfull terminates process */
 
-void end_programm()
+void end_program()
 {
 	char confirm='n';
 	while(true)
 		{
-			cout<<"Do you really want to quit programms?(y/N)"<<endl;
+			cout<<"Do you really want to quit program?(y/N)"<<endl;
 			cout<<"Your room will be lost!"<<endl;
 			cin>>confirm;
 			switch(confirm)
