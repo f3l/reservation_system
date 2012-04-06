@@ -75,6 +75,7 @@ int main()
 					theater[0]->content->unlock();
 					break;
 				case 0:
+					delete theater[0]->content;
 					end_programm();
 					break;
 				default:
