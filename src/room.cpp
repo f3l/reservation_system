@@ -89,13 +89,13 @@ void room::print_room()
 #ifndef _WIN32
 							/* That's the code for UNIX-Type-terminals */
 						case FREE:
-							cout<<"\033[00;32m"<<"L|"<<"\033[0m"<<"\t"; /* green color */
+							cout<<"\033[1;32m"<<"L|"<<"\033[0m"<<"\t"; /* green color */
 							break;
 						case RESERVED:
-							cout<<"\033[01;32m"<<"L|"<<"\033[0m"<<"\t"; /* yellow color */
+							cout<<"\033[1;33m"<<"L|"<<"\033[0m"<<"\t"; /* yellow color */
 							break;
 						case HANDED:
-							cout<<"\033[033;31m"<<"L|"<<"\033[0m"<<"\t"; /* red color */
+							cout<<"\033[1;31m"<<"L|"<<"\033[0m"<<"\t"; /* red color */
 							break;
 						case LOCKED:
 							cout<<"\t";
