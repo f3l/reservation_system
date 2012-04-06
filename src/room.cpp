@@ -56,6 +56,27 @@ room::room()
 		}
 }
 
+room::room(uint number_of_rows, uint number_of_lines, const char *pname)
+{
+	name.assign(pname, strlen(pname));
+	rows = number_of_rows;
+	lines = number_of_lines;
+	
+	/* We need to create a real dynamic array for seats */
+	seats=new seat*[rows];
+	
+	for(uint i=0;i<rows;++i)
+		{
+			seats[i]=new seat[lines];
+		}
+
+
+	for(uint i=0;i<rows;++i)
+		{
+			seats[i]=new seat[lines];
+		}
+}
+
 void room::print_room()
 /*
  * Maybe we can split output into seats? wel'll see

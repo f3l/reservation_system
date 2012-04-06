@@ -37,6 +37,7 @@ class room
 public:
 
 	room();
+	room(uint number_of_rows, uint number_of_lines, const char *pname);
 	void print_room();
 	void lock();
 	void unlock();
