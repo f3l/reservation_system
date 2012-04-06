@@ -56,9 +56,9 @@ room::room()
 		}
 }
 
-room::room(uint number_of_rows, uint number_of_lines, const char *pname)
+room::room(uint number_of_rows, uint number_of_lines, string room_name)
 {
-	name.assign(pname, strlen(pname));
+	name = room_name;
 	rows = number_of_rows;
 	lines = number_of_lines;
 	
