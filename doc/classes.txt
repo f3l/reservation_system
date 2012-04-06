@@ -1,0 +1,30 @@
+== room ==
+
+from /src/room.h
+depends on /src/room.cpp
+           class seat from seat.h
+
+public:
+    - print_room()
+    - lock()
+    - unlock()
+    - reserve()
+    - release()
+    - handout()
+    - cancel()
+private:
+    - seat_input()
+
+== seat ==
+
+from /src/seat.h
+depends on /src/seat.cpp
+
+public:
+    - seat_state get_state()
+    - lock()
+    - unlock()
+    - reserve()
+    - release(uint,uint)
+    - handout(uint,uint)
+    - cancel(uint,uint)
