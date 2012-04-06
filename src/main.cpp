@@ -29,6 +29,7 @@
 using namespace std;
 
 /* And own headers needed */
+/*#include "seat.h"*/
 #include "room.h"
 
 void print_menu();
@@ -41,7 +42,7 @@ void end_programm();
 
 int main()
 {
-	room theater; /* Create new object game of type game */
+	room theater; /* Create new object theater of type room */
 	uint menu;
 	while(true)
 		{

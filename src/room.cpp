@@ -54,20 +54,13 @@ room::room()
 		{
 			seats[i]=new seat[lines];
 		}
-
-
-	/* And need some initial values for our seats (seat->name="\0",seat->state=FREE) */
-	for(uint i=0;i<rows;++i)
-		{
-			for(uint j=0;j<lines;++j)
-				{
-					seats[i][j].name="\0";
-					seats[i][j].state=FREE;
-				}
-		}
 }
 
 void room::print_room()
+/*
+ * Maybe we can split output into seats? wel'll see
+ * that when basic routines are implemented
+ */
 {
 	/* At first we need a line of numbers for the LINES, above, there's the room name */
 	cout<<name<<endl;
@@ -91,7 +84,7 @@ void room::print_room()
 					GetConsoleScreenBufferInfo( hstdout, &csbi );
 #endif
 
-					switch(seats[i][j].state)
+					switch(seats[i][j].get_state())
 						{
 #ifndef _WIN32
 							/* That's the code for UNIX-Type-terminals */
@@ -154,7 +147,7 @@ void room::lock()
 	 * Humans start count with one, programm with zero, therefore we need to decrement the input
 	 * by one to reach the seat
 	 */
-	seats[trow-1][tline-1].state=LOCKED;
+	seats[trow-1][tline-1].lock();
 }
 
 void room::unlock()
@@ -178,10 +171,7 @@ void room::unlock()
 	 * is in state LOCKED, only then we can FREE him
 	 * with this function
 	 */
-	if( seats[trow][tline].state==LOCKED)
-		{
-			seats[trow][tline].state=FREE;
-		}
+	seats[trow][tline].unlock();
 }
 
 void room::reserve()
@@ -200,19 +190,8 @@ void room::reserve()
 	trow-=1;
 	tline-=1;
 	
-	/* The seat needs to be in state FREE */
-	if(!(seats[trow][tline].state==FREE))
-		{
-			cout<<"This seat is not reservable!"<<endl;
-			return;
-		}
-	
-	/* THEN ask for name and save in set new state */
-	cout<<"For whom should the reservation take place?"<<endl;
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	cin.clear();
-	getline(cin, seats[trow][tline].name);
-	seats[trow][tline].state=RESERVED;
+	/* Then call the seats routine */
+	seats[trow][tline].reserve();
 }
 	
 void room::release()
@@ -230,39 +209,9 @@ void room::release()
 	trow-=1;
 	tline-=1;
 	
-	/* The seat must be Reserved to get released */
-	if( ! (seats[trow][tline].state==RESERVED))
-		{
-			return;
-		}
-	
-	/* We need an affirmation, we do quite similar to as input */
-	char affirm='n';
-	while(true)
-		{
-			cout<<"Do you really want to release the reservation of"<<endl;
-			cout<<"seat "<<tline+1<<" in row "<<trow+1<<endl;
-			cout<<"currently reserved for"<<endl;
-			cout<<seats[trow][tline].name<<"? (y/N)"<<endl;
-			cin>>affirm;
-			switch(affirm)
-				{
-					/* If user doesn't affirm, we stop the routine */
-				case 'N':
-				case 'n':
-					return;
-					break;
-					/* If he does, we release the seat and exit */
-				case 'Y':
-				case 'y':
-					seats[trow][tline].name="\0";
-					seats[trow][tline].state=FREE;
-					return;
-					break;
-					/* Otherwise, we give it another try */
-				}
-		}
+	seats[trow][tline].release(trow,tline);
 }
+
 
 void room::handout()
 {
@@ -279,49 +228,7 @@ void room::handout()
 	trow-=1;
 	tline-=1;
 	
-	/*
-	 * This time, we check whether it is free or reserverd and instantly
-	 * ask for verification in the later case
-	 */
-	if( seats[trow][tline].state==RESERVED)
-		{
-			char affirm='n';
-			while(true)
-				{
-					cout<<"Do you really want to hand out the reservation of"<<endl;
-					cout<<"seat "<<tline+1<<" in row "<<trow+1<<endl;
-					cout<<"currently reserved for"<<endl;
-					cout<<seats[trow][tline].name<<"? (y/N)"<<endl;
-					cin>>affirm;
-					
-					/*
-					 * We can't use a switch/case here, because we need
-					 * break for exiting the while-loop
-					 */
-					if(affirm=='y' || affirm =='Y')
-						{
-							break;
-						}
-					else if(affirm=='n' || affirm =='N')
-						{
-							return;
-						}
-					else
-						{
-							cout<<"Invalid input!"<<endl;
-						}
-				}
-		}
-	if( (seats[trow][tline].state==FREE) || (seats[trow][tline].state=RESERVED))
-		{
-			seats[trow][tline].state=HANDED;
-			seats[trow][tline].name="\0";
-		}
-	else
-		{
-			cout<<"The seat is not available!"<<endl;
-			return;
-		}
+	seats[trow][tline].handout(trow,tline);
 }
 
 /* Take back cards (almost the same as release) */
@@ -341,35 +248,7 @@ void room::cancel()
 	tline-=1;
 	
 	/* The seat must be HANDED to get released */
-	if( ! (seats[trow][tline].state==HANDED))
-		{
-			return;
-		}
-	
-	/* We need an affirmation, we do quite similar to as input */
-	char affirm='n';
-	while(true)
-		{
-			cout<<"Do you really want to cancel the card for"<<endl;
-			cout<<"seat "<<tline+1<<" in row "<<trow+1<<" (y/N)"<<endl;
-			cin>>affirm;
-			switch(affirm)
-				{
-					/* If user doesn't affirm, we stop the routine */
-				case 'N':
-				case 'n':
-					return;
-					break;
-					/* If he does, we release the seat and exit */
-				case 'Y':
-				case 'y':
-					seats[trow][tline].name="\0";
-					seats[trow][tline].state=FREE;
-					return;
-					break;
-					/* Otherwise, we give it another try */
-				}
-		}
+	seats[trow][tline].cancel(trow,tline);
 }
 
 

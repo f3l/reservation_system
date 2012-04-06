@@ -19,31 +19,34 @@
  *  Get current code at <http://www.github.com/f3l/reservation_system>
  */
 
-
 /* 
- * Definition of a class for reservation in a rectangle-shaped room.
+ * Definition of a class for seperate seats.
  * To see how it works, and what it provides, see /doc/classes
  */
 
 #include <string>
+
 using namespace std;
 
-#include "seat.h" /*We need our seat-class*/
 
 typedef unsigned int uint; /* We will need many unsignes ints */
 
-class room
-{
-public:
+/* A seat can have the states "free","reserved","handed" or "locked" (e.g. seat broken or doesn't exist) */
+enum seat_state{FREE,RESERVED,HANDED,LOCKED};
 
-	room();
-	void print_room();
+class seat {
+ public:
+	
+	seat();
+	string name;
+	
 	void lock();
 	void unlock();
 	void reserve();
-	void release();
-	void handout();
-	void cancel();
+	void release(uint,uint);
+	void handout(uint,uint);
+	void cancel(uint,uint);
+	seat_state get_state();
 
 	/*
 	 * Important: check whether an option is allowed!
@@ -57,13 +60,6 @@ public:
 	 */
 
 
-private:
-	uint rows;
-	uint lines;
-
-	/* We need a 2-dimensional array of seats, with "seats" being its "initial pointer" */
-	seat **seats;
-	
-	string name;
-	uint seat_input(uint&, uint&);
+ private:
+	seat_state state; /* It's better to save state from external input */
 };
