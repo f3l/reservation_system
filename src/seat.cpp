@@ -158,7 +158,7 @@ void seat::handout(uint row,uint line)
 						}
 				}
 		}
-	if( (state==FREE) || (state=RESERVED))
+	if( (state==FREE) || (state==RESERVED))
 		{
 			state=HANDED;
 			name="\0";
