@@ -80,7 +80,8 @@ int main()
 				case 0:
 					if(end_program())
 						{
-							delete current_room->content;
+							for(unsigned int i = 0; i < theater.length(); i++)	
+								delete theater[i]->content;
 							exit(0);
 						}
 					break;
