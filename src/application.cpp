@@ -72,24 +72,6 @@ void application::run()
 	return;
 }
 
-
-/* Prints main-menu (nothing more, nothing less) */
-void application::print_menu()
-{
-	cout<<"Possible choices:"<<endl;
-	cout<<"(1) View room"<<endl;
-	cout<<"(2) Sell ticket"<<endl;
-	cout<<"(3) Reserve ticket"<<endl;
-	cout<<"(4) Hand out reserved ticket"<<endl;
-	cout<<"(5) Cancel reservation"<<endl;
-	cout<<"(6) Take back ticket"<<endl;
-	cout<<"(7) Make seat unavailable"<<endl;
-	cout<<"(8) Make seat available"<<endl;
-	cout<<"(0) Exit";
-	cout<<endl<<"Your Choice?"<<endl;
-	return;
-}
-
 /* Asks for verification, if succesfull terminates process */
 
 void application::end_program()

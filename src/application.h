@@ -8,7 +8,6 @@ private:
 public:
 	application();
 	void run();
-	void print_menu();
 	void end_program();
 };
 
