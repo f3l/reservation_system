@@ -83,6 +83,8 @@ template <class T>
 linked_list<T>::linked_list()
 {
 	m_length = 0;
+	m_pfirst = 0;
+	m_plast = 0;
 }
 
 template <class T>
@@ -115,11 +117,18 @@ linked_list<T>::~linked_list()
 template <class T>
 void linked_list<T>::append_node()
 {
-	node<T> *pcurrent_node = m_pfirst;
 	node<T> *pnew_node = new node<T>;
-	while(pcurrent_node->m_pnext)
-		pcurrent_node = pcurrent_node->m_pnext;
-	pcurrent_node->m_pnext = pnew_node;
+	if(m_pfirst)
+	{
+		node<T> *pcurrent_node = m_pfirst;
+		while(pcurrent_node->m_pnext)
+			pcurrent_node = pcurrent_node->m_pnext;
+		pcurrent_node->m_pnext = pnew_node;
+	}
+	else
+	{
+		m_pfirst = pnew_node;
+	}
 	m_plast = pnew_node;
 	m_length++;
 	return;

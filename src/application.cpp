@@ -34,60 +34,41 @@ using namespace std;
 #include "application.h"
 #include "room.h"
 #include "linked_list.h"
+#include "menu.h"
 
 /*
  * Creates a new cinema (or else) room with given seats per rows and rows,
  * and the provides a simple menu for actions like reservations etc.
  */
 
+application::application()
+{
+	m_running = 1;
+}
+
 void application::run()
 {
+	menu Menu;
 	linked_list<room*> theater(1); /* Create a linked list of rooms named theater */
 	theater[0]->content = new room();
 	node<room*>* current_room=theater[0]; /*We need a pointer for our different rooms*/
+	Menu.add_entry(new menu_entry<room>(current_room->content, &room::print_room, "View Room"));
+	Menu.add_entry(new menu_entry<room>(current_room->content, &room::handout, "Sell Ticket"));
+	Menu.add_entry(new menu_entry<room>(current_room->content, &room::reserve, "Reserve Ticket"));
+	Menu.add_entry(new menu_entry<room>(current_room->content, &room::handout, "Hand out reserved ticket"));
+	Menu.add_entry(new menu_entry<room>(current_room->content, &room::release, "Cancel reservation"));
+	Menu.add_entry(new menu_entry<room>(current_room->content, &room::cancel, "Take back ticket"));
+	Menu.add_entry(new menu_entry<room>(current_room->content, &room::lock, "Make seat unavailable"));
+	Menu.add_entry(new menu_entry<room>(current_room->content, &room::unlock, "Make seat available"));
+	Menu.add_entry(new menu_entry<application>(this, &application::end_program, "Exit"));
 
-	uint menu;
-	while(true)
-		{
-			print_menu();
-			cin>>menu;
-			switch(menu)
-				{
-				case 1:
-					current_room->content->print_room();
-					break;
-					/* Internal, sell ticket and hand out reserved ticket are equal */
-				case 2:
-				case 4:
-					current_room->content->handout();
-					break;
-				case 3:
-					current_room->content->reserve();
-					break;
-				case 5:
-					current_room->content->release();
-					break;
-				case 6:
-					current_room->content->cancel();
-					break;
-				case 7:
-					current_room->content->lock();
-					break;
-				case 8:
-					current_room->content->unlock();
-					break;
-				case 0:
-					if(end_program())
-						{
-							for(unsigned int i = 0; i < theater.length(); i++)	
-								delete theater[i]->content;
-							exit(0);
-						}
-					break;
-				default:
-					cout<<"Invalid Input"<<endl;
-				}
-		}
+	while(m_running)
+	{
+		Menu.display();
+		Menu.select();
+	}
+
+	delete theater[0]->content;
 	return;
 }
 
@@ -111,7 +92,7 @@ void application::print_menu()
 
 /* Asks for verification, if succesfull terminates process */
 
-int application::end_program()
+void application::end_program()
 {
 	char confirm='n';
 	while(true)
@@ -123,12 +104,13 @@ int application::end_program()
 				{
 				case 'N':
 				case 'n':
-					return 0;
+					return;
 					break;
 				case 'Y':
 				case 'y':
 					cout<<"Exiting"<<endl;
-					return 1;
+					m_running = 0;
+					return;
 					break;
 				default:
 					cout<<"Invalid Input!"<<endl;

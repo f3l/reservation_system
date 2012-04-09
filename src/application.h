@@ -3,10 +3,13 @@
 
 class application
 {
+private:
+	int m_running;
 public:
+	application();
 	void run();
 	void print_menu();
-	int end_program();
+	void end_program();
 };
 
 #endif
