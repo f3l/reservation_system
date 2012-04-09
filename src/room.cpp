@@ -56,6 +56,15 @@ room::room()
 		}
 }
 
+room::~room()
+{
+	for(uint i = 0; i < rows; i++)
+	{
+		delete[] seats[i];
+	}
+	delete[] seats;
+}
+
 room::room(uint number_of_rows, uint number_of_lines, string room_name)
 {
 	name = room_name;

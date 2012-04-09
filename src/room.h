@@ -38,6 +38,7 @@ public:
 
 	room();
 	room(uint number_of_rows, uint number_of_lines, string room_name);
+	~room();
 	void print_room();
 	void lock();
 	void unlock();
