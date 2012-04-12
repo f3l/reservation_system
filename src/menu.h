@@ -67,7 +67,7 @@ class cmenu_entry : public imenu_entry
 
 class cmenu
 {
-	protected:
+ protected:
 	clinked_list<imenu_entry*> m_entries;
 	virtual void do_display()
 	{
@@ -76,11 +76,24 @@ class cmenu
 				std::cout<<"("<<i<<") "<<m_entries[i]->m_content->name()<<std::endl;
 			}
 	}
-
+	
 	virtual void do_select()
 	{
 		unsigned int selection;
-		std::cin>>selection;
+		while(true)
+			{
+				std::cin>>selection;
+				if(cin.fail())
+					{
+						cout<<"Invalid Input!"<<endl;
+						cin.clear();
+						cin.ignore();
+					}
+				else 
+					{
+						break;
+					}
+			}
 		if(selection<m_entries.length())
 			m_entries[selection]->m_content->action();
 		else
