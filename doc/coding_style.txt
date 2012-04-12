@@ -1,0 +1,104 @@
+These are our conventions for writing good code
+They might seem strange, but we've learned that we get by with them the
+best (and they are not quite as strict as the ones for the Linux
+kernel or GNU-Projects)
+
+1. Naming conventions
+
+Names in the program itself (or its classes, functions, etc.) are
+complete lower case and use an underscore ("_") as word separator
+
+Precompiler macros and symbols are all UPPER CASE and use underscore
+as word separator.
+
+
+2. Indentation convention
+
+We use a mix of GNU and Linux-Kernel style, which means:
+- braces are a on a line with themselves, indented with 1 TAB, except
+when opening a function definition, where they are not indented.
+- In either case, the contained code is indented by 1 TAB from the braces.
+- One TAB is one TAB, not 2,4,8 or whatever SPACES (if you need help
+to set up Emacs with those settings, just contact us)
+- SPACES are only used for text- and comment-alignment (once more:
+can easily be done even in Emacs)
+
+3. Comments
+
+- Even though C++ gives the opportunity to set inline-comments with //,
+we don't want them. Put a comment "/* */" in one or several lines
+above instead
+- Never comment each line, comment blocks of lines instead.
+- Only comment on WHAT code is doing, not HOW (except it's some weird
+hack nobody knows)
+- Functions may be described in comments either above the definition
+or between declaration and code block
+- single-line comments are made using /* */, where the text is wrapped
+in one space each side
+- multi-line comments are made by a leading, single line "/*", followed
+by (space) indented "*", and end in a single line "*/". The asterisks
+align on one row, and between "*" and the text is one space.
+- Punctuation is only needed if necessary (ie. comma always,
+dots if several sentences)
+
+4. name-prefixes
+
+We use the following prefixes:
+
+global variables: g_
+static variables: s_
+member variables: m_
+
+Interfaces (aka abstract classes): i
+non-abstract classes: c
+pointers: p
+arrays (with fixed length): a
+
+Prefixes can be aligned, if necessary ( sm_ppfoo_bar would be a static
+pointer onto a pointer, and it would be member of the current class)
+
+5. example
+
+my_class.h:
+#ifndef MY_CLASS
+#define MY_CLASS
+
+/* I am a single-line comment with no punctuation */
+class imy_interface
+{
+public:
+	virtual void do_something(int a, int b) = 0;
+};
+
+class cmy_class
+{
+private:
+	int m_my_int;
+	char *m_ppointer_to_a_char;
+public:
+	float ms_my_static_float;
+	int **pppointer_to_pointer_to_int;
+	void do_something(int a, int b);
+	char amy_array_of_char[128];
+};
+
+#endif
+
+my_class.cpp:
+#include <iostream>
+#include "my_class.h"
+
+/*
+ * And I am a mighty multi-line comment, where punctuation
+ * is absolutely necessary for understanding.
+ */
+
+
+cmy_class::do_something(int a, int b)
+{
+	for(int i = 0; i < b; i++)
+		{
+			std::cout<<a<<std::endl;
+		}
+	return;
+}
