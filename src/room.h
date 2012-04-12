@@ -32,13 +32,13 @@ using namespace std;
 
 typedef unsigned int uint; /* We will need many unsignes ints */
 
-class room
+class croom
 {
 public:
 
-	room();
-	room(uint number_of_rows, uint number_of_lines, string room_name);
-	~room();
+	croom();
+	croom(uint rows, uint lines, string name);
+	~croom();
 	void print_room();
 	void lock();
 	void unlock();
@@ -60,12 +60,12 @@ public:
 
 
 private:
-	uint rows;
-	uint lines;
+	uint m_rows;
+	uint m_lines;
 
 	/* We need a 2-dimensional array of seats, with "seats" being its "initial pointer" */
-	seat **seats;
+	cseat **m_ppseats;
 	
-	string name;
-	uint seat_input(uint&, uint&);
+	string m_name;
+	uint seat_input(uint& row, uint& line);
 };

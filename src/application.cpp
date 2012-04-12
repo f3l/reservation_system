@@ -41,42 +41,42 @@ using namespace std;
  * and the provides a simple menu for actions like reservations etc.
  */
 
-application::application()
+capplication::capplication()
 {
 	m_running = 1;
 }
 
-void application::run()
+void capplication::run()
 {
-	menu Menu;
-	linked_list<room*> theater(1); /* Create a linked list of rooms named theater */
-	theater[0]->content = new room();
-	node<room*>* current_room=theater[0]; /*We need a pointer for our different rooms*/
-	Menu.add_entry(new menu_entry<room>(current_room->content, &room::print_room, "View Room"));
-	Menu.add_entry(new menu_entry<room>(current_room->content, &room::handout, "Sell Ticket"));
-	Menu.add_entry(new menu_entry<room>(current_room->content, &room::reserve, "Reserve Ticket"));
-	Menu.add_entry(new menu_entry<room>(current_room->content, &room::handout, "Hand out reserved ticket"));
-	Menu.add_entry(new menu_entry<room>(current_room->content, &room::release, "Cancel reservation"));
-	Menu.add_entry(new menu_entry<room>(current_room->content, &room::cancel, "Take back ticket"));
-	Menu.add_entry(new menu_entry<room>(current_room->content, &room::lock, "Make seat unavailable"));
-	Menu.add_entry(new menu_entry<room>(current_room->content, &room::unlock, "Make seat available"));
-	Menu.add_entry(new menu_entry<application>(this, &application::end_program, "Exit"));
+	cmenu menu;
+	clinked_list<croom*> theater(1); /* Create a linked list of rooms named theater */
+	theater[0]->m_content = new croom();
+	cnode<croom*>* current_room = theater[0]; /*We need a pointer for our different rooms*/
+	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::print_room, "View Room"));
+	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::handout, "Sell Ticket"));
+	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::reserve, "Reserve Ticket"));
+	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::handout, "Hand out reserved ticket"));
+	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::release, "Cancel reservation"));
+	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::cancel, "Take back ticket"));
+	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::lock, "Make seat unavailable"));
+	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::unlock, "Make seat available"));
+	menu.add_entry(new cmenu_entry<capplication>(this, &capplication::end_program, "Exit"));
 
 	while(m_running)
-	{
-		Menu.display();
-		Menu.select();
-	}
+		{
+			menu.display();
+			menu.select();
+		}
 
-	delete theater[0]->content;
+	delete theater[0]->m_content;
 	return;
 }
 
 /* Asks for verification, if succesfull terminates process */
 
-void application::end_program()
+void capplication::end_program()
 {
-	char confirm='n';
+	char confirm = 'n';
 	while(true)
 		{
 			cout<<"Do you really want to quit program?(y/N)"<<endl;

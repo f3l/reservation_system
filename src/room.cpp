@@ -37,84 +37,84 @@
 
 using namespace std;
 
-room::room()
+croom::croom()
 {
 	/* When a new room gets created, we need some basic information about it */
 	cout<<"Name the room:"<<endl;
-	getline(cin, name);
-	cout<<"How many rows does the room have?"<<endl;
-	cin>>rows;
+	getline(cin, m_name);
+	cout<<"How many m_rows does the room have?"<<endl;
+	cin>>m_rows;
 	cout<<"How many seats per row?"<<endl;
-	cin>>lines;
+	cin>>m_lines;
 	
 	/* We need to create a real dynamic array for seats */
-	seats=new seat*[rows];
+	m_ppseats = new cseat * [m_rows];
 	
-	for(uint i=0;i<rows;++i)
+	for(uint i = 0; i < m_rows; ++i)
 		{
-			seats[i]=new seat[lines];
+			m_ppseats[i] = new cseat[m_lines];
 		}
 }
 
-room::~room()
+croom::~croom()
 {
-	for(uint i = 0; i < rows; i++)
-	{
-		delete[] seats[i];
-	}
-	delete[] seats;
+	for(uint i = 0; i < m_rows; i++)
+		{
+			delete[] m_ppseats[i];
+		}
+	delete[] m_ppseats;
 }
 
-room::room(uint number_of_rows, uint number_of_lines, string room_name)
+croom::croom(uint rows, uint lines, string name)
 {
-	name = room_name;
-	rows = number_of_rows;
-	lines = number_of_lines;
+	m_name = name;
+	m_rows = rows;
+	m_lines = lines;
 	
 	/* We need to create a real dynamic array for seats */
-	seats=new seat*[rows];
+	m_ppseats = new cseat * [m_rows];
 	
-	for(uint i=0;i<rows;++i)
+	for(uint i = 0; i < m_rows; ++i)
 		{
-			seats[i]=new seat[lines];
+			m_ppseats[i] = new cseat[m_lines];
 		}
 
 
-	for(uint i=0;i<rows;++i)
+	for(uint i = 0; i < m_rows; ++i)
 		{
-			seats[i]=new seat[lines];
+			m_ppseats[i] = new cseat[m_lines];
 		}
 }
 
-void room::print_room()
+void croom::print_room()
 /*
  * Maybe we can split output into seats? wel'll see
  * that when basic routines are implemented
  */
 {
 	/* At first we need a line of numbers for the LINES, above, there's the room name */
-	cout<<name<<endl;
-	for(uint i=0;i<lines;++i)
+	cout<<m_name<<endl;
+	for(uint i = 0; i < m_lines; ++i)
 		{
 			cout<<"\t"<<i+1;
 		}
 	cout<<endl;
 	
 	/* Then, we give out each line seperatly (Number of row - Seats, later with color, if possible) */
-	for(uint i=0;i<rows;++i)
+	for(uint i = 0; i < m_rows; ++i)
 		{
 			cout<<i+1<<"\t";
-			for(uint j=0;j<lines;j++)
+			for(uint j = 0; j < m_lines; j++)
 				{
 #ifdef _WIN32
-					HANDLE hstdout = GetStdHandle( STD_OUTPUT_HANDLE );
+					HANDLE hstdout = GetStdHandle(STD_OUTPUT_HANDLE);
 
 					/* Remember how things were when we started */
 					CONSOLE_SCREEN_BUFFER_INFO csbi;
-					GetConsoleScreenBufferInfo( hstdout, &csbi );
+					GetConsoleScreenBufferInfo(hstdout, &csbi);
 #endif
 
-					switch(seats[i][j].get_state())
+					switch(m_ppseats[i][j].state())
 						{
 #ifndef _WIN32
 							/* That's the code for UNIX-Type-terminals */
@@ -151,14 +151,14 @@ void room::print_room()
 #endif
 						}
 #ifdef _WIN32
-				SetConsoleTextAttribute( hstdout, csbi.wAttributes );
+					SetConsoleTextAttribute(hstdout, csbi.wAttributes);
 #endif
 				}
 			cout<<endl;
 		}
 }
 
-void room::lock()
+void croom::lock()
 {
 	/* We need temporary variables */
 	uint trow;
@@ -168,7 +168,7 @@ void room::lock()
 	 * If user wants to cancel, end routine
 	 * (seat_input returns False if input is succesful)
 	 */
-	if(seat_input(trow,tline))
+	if(seat_input(trow, tline))
 		{
 			return;
 		}
@@ -177,16 +177,16 @@ void room::lock()
 	 * Humans start count with one, programm with zero, therefore we need to decrement the input
 	 * by one to reach the seat
 	 */
-	seats[trow-1][tline-1].lock();
+	m_ppseats[trow-1][tline-1].lock();
 }
 
-void room::unlock()
+void croom::unlock()
 {
 	/* Get the data we need for unlocking (as above) */
 	uint trow;
 	uint tline;
 	cout<<"Unlock Seat"<<endl;
-	if(seat_input(trow,tline))
+	if(seat_input(trow, tline))
 		{
 			return;
 		}
@@ -201,17 +201,17 @@ void room::unlock()
 	 * is in state LOCKED, only then we can FREE him
 	 * with this function
 	 */
-	seats[trow][tline].unlock();
+	m_ppseats[trow][tline].unlock();
 }
 
-void room::reserve()
+void croom::reserve()
 /* Reserve a place for a person, needs the name! */
 {
 	/* The usual input at first */
 	uint trow;
 	uint tline;
 	cout<<"Reserve Seat"<<endl;
-	if(seat_input(trow,tline))
+	if(seat_input(trow, tline))
 		{
 			return;
 		}
@@ -221,16 +221,16 @@ void room::reserve()
 	tline-=1;
 	
 	/* Then call the seats routine */
-	seats[trow][tline].reserve();
+	m_ppseats[trow][tline].reserve();
 }
 	
-void room::release()
+void croom::release()
 {
 	/* The usual input at first */
 	uint trow;
 	uint tline;
 	cout<<"Cancel reservation"<<endl;
-	if(seat_input(trow,tline))
+	if(seat_input(trow, tline))
 		{
 			return;
 		}
@@ -239,17 +239,17 @@ void room::release()
 	trow-=1;
 	tline-=1;
 	
-	seats[trow][tline].release(trow,tline);
+	m_ppseats[trow][tline].release(trow, tline);
 }
 
 
-void room::handout()
+void croom::handout()
 {
 	/* Usual input */
 	uint trow;
 	uint tline;
 	cout<<"Hand out ticket"<<endl;
-	if(seat_input(trow,tline))
+	if(seat_input(trow, tline))
 		{
 			return;
 		}
@@ -258,17 +258,17 @@ void room::handout()
 	trow-=1;
 	tline-=1;
 	
-	seats[trow][tline].handout(trow,tline);
+	m_ppseats[trow][tline].handout(trow, tline);
 }
 
 /* Take back cards (almost the same as release) */
-void room::cancel()
+void croom::cancel()
 {
 	/* The usual input at first */
 	uint trow;
 	uint tline;
 	cout<<"Cancel bought cards"<<endl;
-	if(seat_input(trow,tline))
+	if(seat_input(trow, tline))
 		{
 			return;
 		}
@@ -278,11 +278,11 @@ void room::cancel()
 	tline-=1;
 	
 	/* The seat must be HANDED to get released */
-	seats[trow][tline].cancel(trow,tline);
+	m_ppseats[trow][tline].cancel(trow, tline);
 }
 
 
-uint room::seat_input(uint& row, uint& line) /* Asks user for the row/line he wants to choose */
+uint croom::seat_input(uint& row, uint& line) /* Asks user for the row/line he wants to choose */
 {
 	while(true)
 		{
@@ -299,7 +299,7 @@ uint room::seat_input(uint& row, uint& line) /* Asks user for the row/line he wa
 					cout<<"Canceled by user request"<<endl;
 					return 1;
 				}
-			if(row<=rows && line<=lines)
+			if(row<=m_rows && line<=m_lines)
 				{
 					break;
 				}

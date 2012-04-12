@@ -31,35 +31,35 @@ using namespace std;
 /* Get the declarations needed for this file */
 #include "seat.h"
 
-seat::seat()
+cseat::cseat()
 {
 	/* When a new room gets created, we need to set some information */
-	name="\0";
-	state=FREE;
+	m_name = "\0";
+	m_state = FREE;
 }
 
 /* Maybe there's need for some kind  of "print", but how (superseed <<?), and for which purposes?*/
 
-seat_state seat::get_state() /*Returns the current state, as it is private*/
+seat_state cseat::state() /*Returns the current state, as it is private*/
 {
-	return state;
+	return m_state;
 }
 
-void seat::lock()
+void cseat::lock()
 {
-	state=LOCKED;
+	m_state = LOCKED;
 }
 
-void seat::unlock()
+void cseat::unlock()
 {
 	/*
 	 * we need to check, whether the chosen seat
 	 * is in state LOCKED, only then we can FREE
 	 * him with this function
 	 */
-	if(state==LOCKED)
+	if(m_state == LOCKED)
 		{
-			state=FREE;
+			m_state = FREE;
 		}
 	else
 		{
@@ -67,42 +67,42 @@ void seat::unlock()
 		}
 }
 
-void seat::reserve()
-/* Reserve a place for a person, needs the name! */
+void cseat::reserve()
+/* Reserve a place for a person, needs the m_name! */
 {
 	/* The usual input at first */
 	/* The seat needs to be in state FREE */
-	if(!(state==FREE))
+	if(!(m_state == FREE))
 		{
 			cout<<"This seat is not reservable! Aborting."<<endl;
 			return;
 		}
 	
-	/* THEN ask for name and save in set new state */
+	/* THEN ask for m_name and save in set new state */
 	cout<<"For whom should the reservation take place?"<<endl;
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 	cin.clear();
-	getline(cin, name);
-	state=RESERVED;
+	getline(cin, m_name);
+	m_state = RESERVED;
 }
 	
-void seat::release(uint row,uint line) /*ROW and LINE as machine index, starting with 0*/
+void cseat::release(uint row, uint line) /*ROW and LINE as machine index, starting with 0*/
 {
 	/* The seat must be Reserved to get released */
-	if( ! (state==RESERVED))
+	if(!(m_state == RESERVED))
 		{
 			cout<<"Seat isn't releasable! Aborting."<<endl;
 			return;
 		}
 	
 	/* We need an affirmation, we do quite similar to as input */
-	char affirm='n';
+	char affirm = 'n';
 	while(true)
 		{
 			cout<<"Do you really want to release the reservation of"<<endl;
 			cout<<"seat "<<line+1<<" in row "<<row+1<<endl;
 			cout<<"currently reserved for"<<endl;
-			cout<<name<<"? (y/N)"<<endl;
+			cout<<m_name<<"? (y/N)"<<endl;
 			cin>>affirm;
 			switch(affirm)
 				{
@@ -114,8 +114,8 @@ void seat::release(uint row,uint line) /*ROW and LINE as machine index, starting
 					/* If he does, we release the seat and exit */
 				case 'Y':
 				case 'y':
-					name="\0";
-					state=FREE;
+					m_name = "\0";
+					m_state = FREE;
 					return;
 					break;
 					/* Otherwise, we give it another try */
@@ -123,32 +123,32 @@ void seat::release(uint row,uint line) /*ROW and LINE as machine index, starting
 		}
 }
 
-void seat::handout(uint row,uint line)
+void cseat::handout(uint row, uint line)
 {
 	/*
 	 * This time, we check whether it is free or reserverd and instantly
 	 * ask for verification in the later case
 	 */
-	if( state==RESERVED)
+	if(m_state == RESERVED)
 		{
-			char affirm='n';
+			char affirm = 'n';
 			while(true)
 				{
 					cout<<"Do you really want to hand out the reservation of"<<endl;
 					cout<<"seat "<<line+1<<" in row "<<row+1<<endl;
 					cout<<"currently reserved for"<<endl;
-					cout<<name<<"? (y/N)"<<endl;
+					cout<<m_name<<"? (y/N)"<<endl;
 					cin>>affirm;
 					
 					/*
 					 * We can't use a switch/case here, because we need
 					 * break for exiting the while-loop
 					 */
-					if(affirm=='y' || affirm =='Y')
+					if(affirm == 'y' || affirm == 'Y')
 						{
 							break;
 						}
-					else if(affirm=='n' || affirm =='N')
+					else if(affirm == 'n' || affirm == 'N')
 						{
 							return;
 						}
@@ -158,10 +158,10 @@ void seat::handout(uint row,uint line)
 						}
 				}
 		}
-	if( (state==FREE) || (state==RESERVED))
+	if( (m_state == FREE) || (m_state == RESERVED))
 		{
-			state=HANDED;
-			name="\0";
+			m_state = HANDED;
+			m_name = "\0";
 			cout<<"Done"<<endl;
 		}
 	else
@@ -172,16 +172,16 @@ void seat::handout(uint row,uint line)
 }
 
 /* Take back cards (almost the same as release) */
-void seat::cancel(uint row, uint line)
+void cseat::cancel(uint row, uint line)
 {
 	/* The seat must be HANDED to get released */
-	if( ! (state==HANDED))
+	if(!(m_state == HANDED))
 		{
 			return;
 		}
 	
 	/* We need an affirmation, we do quite similar to as input */
-	char affirm='n';
+	char affirm = 'n';
 	while(true)
 		{
 			cout<<"Do you really want to cancel the card for"<<endl;
@@ -197,8 +197,8 @@ void seat::cancel(uint row, uint line)
 					/* If he does, we release the seat and exit */
 				case 'Y':
 				case 'y':
-					name="\0";
-					state=FREE;
+					m_name = "\0";
+					m_state = FREE;
 					cout<<"Done"<<endl;
 					return;
 					break;
