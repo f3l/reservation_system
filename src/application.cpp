@@ -37,8 +37,8 @@ using namespace std;
 #include "menu.h"
 
 /*
- * Creates a new cinema (or else) room with given seats per rows and rows,
- * and the provides a simple menu for actions like reservations etc.
+ * Creates the first cinema (or else) room with given seats per rows and rows,
+ * and then provides a simple menu for actions like reservations, etc.
  */
 
 application::application()
