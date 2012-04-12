@@ -1,4 +1,4 @@
 current ━┳━━━━━━━━ add multi-room support ━━ rework menu ━━━┓
-         ┣━ implement export/import ━┓                      ┃                     
+         ┣━ implement export/import ━┓                      ┃
          ┣━ create config ━━━━━━━━━━━┻━ implement database ━┫
          ┗━ improve documentation ━━━━━━━━━━━━━━━━━━━━━━━━━━┻━ v1.0 ━━ GUI ━━ ?
