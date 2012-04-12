@@ -1,30 +1,353 @@
-== room ==
+1 capplication (application.h/application.cpp)
+2 clinked_list (linked_list.h)
+3 cnode (linked_list.h)
+4 cmenu (menu.h)
+5 imenu_entry (menu.h)
+6 cmenu_entry (menu.h)
+7 croom (room.h/room.cpp)
 
-from /src/room.h
-depends on /src/room.cpp
-           class seat from seat.h
 
-public:
-    - print_room()
-    - lock()
-    - unlock()
-    - reserve()
-    - release()
-    - handout()
-    - cancel()
-private:
-    - seat_input()
+====================
 
-== seat ==
+1 capplication
 
-from /src/seat.h
-depends on /src/seat.cpp
+Creates the first cinema (or else) room with given seats per rows and rows,
+and then provides a simple menu for actions like reservations, etc.
 
-public:
-    - seat_state get_state()
-    - lock()
-    - unlock()
-    - reserve()
-    - release(uint,uint)
-    - handout(uint,uint)
-    - cancel(uint,uint)
+1.1 variables
+
+1.1.1 private
+
+m_running
+        type int, if false application.run() ends program
+
+
+1.2 functions
+
+1.2.1 public
+
+capplication()
+        - sets m_running TRUE (necessary for end of instance) 
+
+run()
+        - prepares first room
+        - initializes the linked lists for rooms and menus
+        - runs infinite loop for displaying and selecting in menu
+        - de-allocates memory
+
+end_program()
+        - Asks for confirmation
+        - if successful: sets m_running false
+
+====================
+
+2 clinked_list
+
+Template for a linked list with content of type <T>
+There's some special behaviour within delete_node() and insert_node() (see
+there)
+
+2.1 variables
+
+2.1.1 private
+
+*m_pfirst
+*m_plast
+        - pointer to the first/last node within the chain
+
+m_length
+        - type unsigned int, current length of chain
+
+
+2.2 functions
+
+2.2.1 public
+
+clinked_list()
+        - initializes variables as "0"
+
+clinked_list(unsigned int length)
+        - creates a list of length "length"
+        - initializes m_pfirst and m_plast as first and last node
+
+~clinked_list()
+        - deletes each node separately
+
+append_node()
+        - appends a new node to the end of the chain
+        - refreshes m_pfirst (if appended node is only node),
+          p_mlast (is appended node), and length (+=1)
+
+inserts_node(unsigned int pos)
+        - inserts node at position <pos>
+        - if <pos> is not within list, appends a node
+        - refreshes pointers and m_length
+
+delete_node(unsigned int pos)
+        - deletes node at position <pos>
+        - if <pos> is too large, does nothing (!)
+        - otherwise, refreshes pointers and m_length
+
+*first()
+*last()
+        - return pointer address to m_pfirst/m_plast
+
+length()
+        - return unsigned int with current length (m_length)
+
+
+2.3 operators
+
+[] (unsigned int n)
+        - returns pointer-address to <n>-th element in the list
+
+====================
+
+3 cnode
+
+Specifies nodes within the linked list (and is therefore defined in
+linked_list.h) and content of type <T>.
+node and linked_list are friends, so linked_list can write to private members
+of node (see source)
+
+3.1 variables
+
+3.1.1 public
+
+m_content
+        - type <T> (here: usually pointer to object or function)
+
+3.1.2 private
+
+*m_pnext
+        - contains the address of the next node in the list
+
+
+3.2 functions
+
+3.2.1 public
+
+cnode()
+        - initializes pointer m_pnext as 0 (therefore: last element in list)
+~cnode()
+        - currently: nothing
+*next()
+        - returns address of next node
+
+====================
+
+4 cmenu
+
+4.1 variables
+
+4.1.1 protected
+
+m_entries
+        - type linked_list
+        - content of node is a pointer to object imenu_entry
+
+
+4.2 functions
+
+4.2.1 public
+
+~cmenu()
+        - deletes each m_entry
+
+add_entry(imenue_entry *entry)
+        - appends a node new menue entry
+
+display()
+select()
+        - see 4.2.2 do_display()/do_selected()
+
+4.2.2 protected
+
+do_display()
+        - prints the current menu possibilities and the index by which
+          they are to reach
+
+do_select()
+        - handles choice-input
+        - starts selected action
+
+====================
+
+5 imenu_entry
+
+from file menu.h
+provides the "static" functions and variables for menu_entry that are
+independent from <T>
+
+5.1 functions
+
+All functions - private or protected - are set to 0 or empty values.
+
+5.1.1 public
+
+~imenue_entry
+        - does nothing
+
+action()
+        - calls do_action() from scope protected
+
+get_name()
+        - returns do_get_name() from scope protected
+
+
+5.1.2 protected
+
+do_action()
+do_get_name()
+        - virtual
+        - do nothing
+
+====================
+
+6 cmenu_entry
+
+from file menu.h
+inherits routines from imenu_entry
+
+6.1 variables
+
+6.1.1 private
+
+T *m_pobject
+        - Pointer to type T
+        - used for reference to action of specific menu entry
+
+string m_name
+       - Name of the menu entry
+
+
+6.2 functions
+
+6.2.1 public
+
+cmenu_entry(T *pobject, void (T::*pmethod)(), string name)
+       - In fact, I currently don't know what this exactly does,
+         (or better: HOW it does the things it does), but it seems to
+       - initialize a new cmenue_entry with reference to object, name and
+         method
+
+6.2.2 private
+
+(T::*m_pmethod)();
+        - calls method from object T
+
+6.2.3 protected
+
+do_action()
+        - calls method p_method from object T
+
+do_name()
+        - returns the name of the menu_entry
+
+====================
+
+7. croom
+
+7.1 variables
+
+7.1.1 private
+
+m_rows
+m_lines
+        - number of rows and lines the current room has or should have
+
+**m_ppseats
+        - 2-dimensional array of seats (which is a mapping of the real room)
+
+m_name
+        - the name of the room
+
+7.2 functions
+
+7.2.1 public
+
+croom()
+croom(unsigned int rows, unsigned int lines, string name)
+        - creates a room with <rows> rows and <lines> lines and name it
+          <name>
+        - this includes the creation of the 2-dimensional array
+        - if not given at function call, it will ask for the values
+
+~croom()
+        - deletes the seats
+
+print_room()
+        - prints a semi-graphical map of the room
+        - there are two versions of the colourized output: one for POSIX 
+          (within the #ifndef _WIN32 statement), and for for windows
+
+lock()
+        - locks seat
+
+unlock()
+        - unlocks seat
+
+reserve()
+        - reserves seat
+
+release()
+        - cancels reservation
+
+handout()
+        - sell ticket or hand out reservation
+
+cancel()
+        - cancels already sold tickets
+
+7.2.2 private
+
+seat_input(unsigned int&, unsigned int&)
+        - does user input for functions lock() - cancel()
+
+====================
+
+8 seat
+
+8.1 necessary definition and information
+
+- We have an enum seat_state that provides the value FREE, RESERVED, HANDED,
+  and LOCKED
+- Important: We check whether an option is allowed!
+  The states in which you can perform an action are:
+  lock(): each
+  unlock(): LOCKED
+  reserve(): FREE
+  release(): RESERVED
+  handout(): FREE, RESERVED (later with check)
+  cancel(): LOCKED (Does almost the same as release(), but with another
+            verification
+
+8.2 variables
+
+8.2.1 public
+
+m_name
+        - the name for whom the seat is reserved (if it is)
+
+8.2.2 private
+
+m_state
+        - the current state of the seat (type: seat_state)
+
+8.3 functions
+
+8.3.1 public
+
+cseat()
+        - New seats have no name connected to them, and are free
+
+state()
+        - Getter function for the seat state
+
+lock()
+unlock()
+reserve()
+release(uint,uint)
+handout(uint,uint)
+cancel(uint,uint)
+        - Change states and do additional verification
