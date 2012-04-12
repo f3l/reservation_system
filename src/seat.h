@@ -32,21 +32,28 @@ using namespace std;
 typedef unsigned int uint; /* We will need many unsignes ints */
 
 /* A seat can have the states "free","reserved","handed" or "locked" (e.g. seat broken or doesn't exist) */
-enum seat_state{FREE,RESERVED,HANDED,LOCKED};
+enum seat_state
+{
+	FREE,
+	RESERVED,
+	HANDED,
+	LOCKED
+};
 
-class seat {
+class cseat
+{
  public:
 	
-	seat();
-	string name;
+	cseat();
+	string m_name;
 	
 	void lock();
 	void unlock();
 	void reserve();
-	void release(uint,uint);
-	void handout(uint,uint);
-	void cancel(uint,uint);
-	seat_state get_state();
+	void release(uint row, uint line);
+	void handout(uint row, uint line);
+	void cancel(uint row, uint line);
+	seat_state state();
 
 	/*
 	 * Important: check whether an option is allowed!
@@ -61,5 +68,5 @@ class seat {
 
 
  private:
-	seat_state state; /* It's better to save state from external input */
+	seat_state m_state; /* It's better to save state from external input */
 };

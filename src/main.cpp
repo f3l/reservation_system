@@ -23,7 +23,7 @@
 
 int main(void)
 {
-	application program;
-	program.run();
+	capplication application;
+	application.run();
 	return 0;
 }
