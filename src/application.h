@@ -26,6 +26,9 @@ class capplication
 {
 private:
 	int m_running;
+	template<typename T>
+	void do_input(T&);
+	
 public:
 	capplication();
 	void run();

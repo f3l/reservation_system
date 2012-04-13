@@ -80,26 +80,33 @@ class cmenu
 	virtual void do_select()
 	{
 		unsigned int selection;
-		while(true)
-			{
-				std::cin>>selection;
-				if(cin.fail())
-					{
-						cout<<"Invalid Input!"<<endl;
-						cin.clear();
-						cin.ignore();
-					}
-				else 
-					{
-						break;
-					}
-			}
+		do_input(selection);
 		if(selection<m_entries.length())
 			m_entries[selection]->m_content->action();
 		else
 			std::cout<<"Invalid menu entry!"<<endl;
 		return;
 	}
+
+ private:	
+	template<typename T>
+		void do_input(T& input)
+		{
+			while(true)
+				{
+					std::cin>>input;
+					if(cin.fail())
+						{
+							cout<<"Invalid Input!"<<endl;
+							cin.clear();
+							cin.ignore();
+						}
+					else
+						{
+							return;
+						}
+				}
+		}
 
 	public:
 	virtual ~cmenu()

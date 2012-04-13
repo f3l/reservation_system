@@ -42,10 +42,10 @@ croom::croom()
 	/* When a new room gets created, we need some basic information about it */
 	cout<<"Name the room:"<<endl;
 	getline(cin, m_name);
-	cout<<"How many m_rows does the room have?"<<endl;
-	cin>>m_rows;
+	cout<<"How many rows does the room have?"<<endl;
+	do_input(m_rows);
 	cout<<"How many seats per row?"<<endl;
-	cin>>m_lines;
+	do_input(m_lines);
 	
 	/* We need to create a real dynamic array for seats */
 	m_ppseats = new cseat * [m_rows];
@@ -287,13 +287,13 @@ uint croom::seat_input(uint& row, uint& line) /* Asks user for the row/line he w
 	while(true)
 		{
 			cout<<"Which seat? (row,line)\n(0 to cancel)"<<endl;
-			cin>>row;
+			do_input(row);
 			if(row == 0)
 				{
 					cout<<"Canceled by user request"<<endl;
 					return 1;
 				}
-			cin>>line;
+			do_input(line);
 			if(line == 0)
 				{
 					cout<<"Canceled by user request"<<endl;
@@ -305,4 +305,23 @@ uint croom::seat_input(uint& row, uint& line) /* Asks user for the row/line he w
 				}
 		}
 	return 0;
+}
+
+template<typename T>
+void croom::do_input(T& input)
+{
+	while(true)
+		{
+			std::cin>>input;
+			if(cin.fail())
+				{
+					cout<<"Invalid Input!"<<endl;
+					cin.clear();
+					cin.ignore();
+				}
+			else
+				{
+					return;
+				}
+		}
 }

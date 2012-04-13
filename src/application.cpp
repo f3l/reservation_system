@@ -81,7 +81,8 @@ void capplication::end_program()
 		{
 			cout<<"Do you really want to quit program?(y/N)"<<endl;
 			cout<<"Your rooms will be lost!"<<endl;
-			cin>>confirm;
+			
+			do_input(confirm);
 			switch(confirm)
 				{
 				case 'N':
@@ -96,7 +97,28 @@ void capplication::end_program()
 					break;
 				default:
 					cout<<"Invalid Input!"<<endl;
+					cin.clear();
+					cin.ignore();
 					break;
+				}
+		}
+}
+
+template<typename T>
+void capplication::do_input(T& input)
+{
+	while(true)
+		{
+			std::cin>>input;
+			if(cin.fail())
+				{
+					cout<<"Invalid Input!"<<endl;
+					cin.clear();
+					cin.ignore();
+				}
+			else
+				{
+					return;
 				}
 		}
 }

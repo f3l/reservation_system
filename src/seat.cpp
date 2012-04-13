@@ -103,7 +103,7 @@ void cseat::release(uint row, uint line) /*ROW and LINE as machine index, starti
 			cout<<"seat "<<line+1<<" in row "<<row+1<<endl;
 			cout<<"currently reserved for"<<endl;
 			cout<<m_name<<"? (y/N)"<<endl;
-			cin>>affirm;
+			do_input(affirm);
 			switch(affirm)
 				{
 					/* If user doesn't affirm, we stop the routine */
@@ -138,7 +138,7 @@ void cseat::handout(uint row, uint line)
 					cout<<"seat "<<line+1<<" in row "<<row+1<<endl;
 					cout<<"currently reserved for"<<endl;
 					cout<<m_name<<"? (y/N)"<<endl;
-					cin>>affirm;
+					do_input(affirm);
 					
 					/*
 					 * We can't use a switch/case here, because we need
@@ -186,7 +186,7 @@ void cseat::cancel(uint row, uint line)
 		{
 			cout<<"Do you really want to cancel the card for"<<endl;
 			cout<<"seat "<<line+1<<" in row "<<row+1<<"? (y/N)"<<endl;
-			cin>>affirm;
+			do_input(affirm);
 			switch(affirm)
 				{
 					/* If user doesn't affirm, we stop the routine */
@@ -203,6 +203,25 @@ void cseat::cancel(uint row, uint line)
 					return;
 					break;
 					/* Otherwise, we give it another try */
+				}
+		}
+}
+
+template<typename T>
+void cseat::do_input(T& input)
+{
+	while(true)
+		{
+			std::cin>>input;
+			if(cin.fail())
+				{
+					cout<<"Invalid Input!"<<endl;
+					cin.clear();
+					cin.ignore();
+				}
+			else
+				{
+					return;
 				}
 		}
 }

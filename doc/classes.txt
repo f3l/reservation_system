@@ -39,6 +39,13 @@ end_program()
         - Asks for confirmation
         - if successful: sets m_running false
 
+1.2.2 private
+
+do_input(<T> input)
+        - template for multi-purposes
+        - filters invalid input and retries til valid input
+        - writes into variable given in argument
+
 ====================
 
 2 clinked_list
@@ -161,7 +168,14 @@ display()
 select()
         - see 4.2.2 do_display()/do_selected()
 
-4.2.2 protected
+4.2.2 private
+
+do_input(<T> input)
+        - template for multi-purposes
+        - filters invalid input and retries til valid input
+        - writes into variable given in argument
+
+4.2.3 protected
 
 do_display()
         - prints the current menu possibilities and the index by which
@@ -304,6 +318,10 @@ cancel()
 seat_input(unsigned int&, unsigned int&)
         - does user input for functions lock() - cancel()
 
+do_input(<T> input)
+        - template for multi-purposes
+        - filters invalid input and retries til valid input
+
 ====================
 
 8 seat
@@ -351,3 +369,8 @@ release(uint,uint)
 handout(uint,uint)
 cancel(uint,uint)
         - Change states and do additional verification
+8.3.2 private
+
+do_input(<T> input)
+        - template for multi-purposes
+        - filters invalid input and retries til valid input
