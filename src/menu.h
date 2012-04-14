@@ -103,6 +103,7 @@ class cmenu
 						}
 					else
 						{
+							flush_stream(cin);
 							return;
 						}
 				}

@@ -45,6 +45,8 @@ do_input(<T> input)
         - template for multi-purposes
         - filters invalid input and retries til valid input
         - writes into variable given in argument
+        - do NOT use for input into strings that might end with "\n",
+          as it likely will discard the FOLLOWING input!
 
 ====================
 
@@ -174,6 +176,8 @@ do_input(<T> input)
         - template for multi-purposes
         - filters invalid input and retries til valid input
         - writes into variable given in argument
+        - do NOT use for input into strings that might end with "\n",
+          as it likely will discard the FOLLOWING input!
 
 4.2.3 protected
 
@@ -321,6 +325,8 @@ seat_input(unsigned int&, unsigned int&)
 do_input(<T> input)
         - template for multi-purposes
         - filters invalid input and retries til valid input
+        - do NOT use for input into strings that might end with "\n",
+          as it likely will discard the FOLLOWING input!
 
 ====================
 
@@ -374,3 +380,5 @@ cancel(uint,uint)
 do_input(<T> input)
         - template for multi-purposes
         - filters invalid input and retries til valid input
+        - do NOT use for input into strings that might end with "\n",
+          as it likely will discard the FOLLOWING input!

@@ -118,6 +118,7 @@ void capplication::do_input(T& input)
 				}
 			else
 				{
+					flush_stream(cin);
 					return;
 				}
 		}

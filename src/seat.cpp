@@ -220,6 +220,7 @@ void cseat::do_input(T& input)
 				}
 			else
 				{
+					flush_stream(cin);
 					return;
 				}
 		}
