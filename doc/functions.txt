@@ -1,0 +1,9 @@
+This document describes the functions from functions.h and
+functions.cpp.
+
+istream &flush_stream(istream &in)
+        - flushes the inputstream given as argument by resetting the
+          failure-flags and afterwards dropping the content until next
+          newline
+        - Problem left: if inpustream wants "int" and we give, for
+          example, "2saal", then the next input gets "saal".
