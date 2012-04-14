@@ -34,6 +34,7 @@
 
 /* Get the declarations needed for this file */
 #include "room.h"
+#include "functions.h"
 
 using namespace std;
 
@@ -316,8 +317,7 @@ void croom::do_input(T& input)
 			if(cin.fail())
 				{
 					cout<<"Invalid Input!"<<endl;
-					cin.clear();
-					cin.ignore();
+					flush_stream(cin);
 				}
 			else
 				{

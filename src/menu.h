@@ -25,6 +25,7 @@
 #define MENU_DEFINED
 
 #include "linked_list.h"
+#include "functions.h"
 #include <iostream>
 #include <string>
 
@@ -98,8 +99,7 @@ class cmenu
 					if(cin.fail())
 						{
 							cout<<"Invalid Input!"<<endl;
-							cin.clear();
-							cin.ignore();
+							flush_stream(cin);
 						}
 					else
 						{

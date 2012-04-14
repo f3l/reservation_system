@@ -30,6 +30,7 @@ using namespace std;
 
 /* Get the declarations needed for this file */
 #include "seat.h"
+#include "functions.h"
 
 cseat::cseat()
 {
@@ -80,8 +81,7 @@ void cseat::reserve()
 	
 	/* THEN ask for m_name and save in set new state */
 	cout<<"For whom should the reservation take place?"<<endl;
-	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	cin.clear();
+	flush_stream(cin);
 	getline(cin, m_name);
 	m_state = RESERVED;
 }
@@ -216,8 +216,7 @@ void cseat::do_input(T& input)
 			if(cin.fail())
 				{
 					cout<<"Invalid Input!"<<endl;
-					cin.clear();
-					cin.ignore();
+					flush_stream(cin);
 				}
 			else
 				{

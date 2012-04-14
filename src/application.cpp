@@ -35,6 +35,7 @@ using namespace std;
 #include "room.h"
 #include "linked_list.h"
 #include "menu.h"
+#include "functions.h"
 
 /*
  * Creates the first cinema (or else) room with given seats per rows and rows,
@@ -113,8 +114,7 @@ void capplication::do_input(T& input)
 			if(cin.fail())
 				{
 					cout<<"Invalid Input!"<<endl;
-					cin.clear();
-					cin.ignore();
+					flush_stream(cin);
 				}
 			else
 				{
