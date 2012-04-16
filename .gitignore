@@ -1,0 +1,24 @@
+# Project
+reservation_system
+
+# Compiled Object files
+*.o
+
+# Compiled executables
+*.exe
+*.out
+
+# Linux/Unix
+.*
+!.gitignore
+*~
+
+# Windows
+Thumbs.db 
+Desktop.ini
+
+# OSX
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
