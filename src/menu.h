@@ -29,6 +29,8 @@
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 class imenu_entry
 {
 	protected:
@@ -74,7 +76,7 @@ class cmenu
 	{
 		for(unsigned int i = 0; i < m_entries.length(); i++)
 			{
-				std::cout<<"("<<i<<") "<<m_entries[i]->m_content->name()<<std::endl;
+				cout<<"("<<i<<") "<<m_entries[i]->m_content->name()<<endl;
 			}
 	}
 	
@@ -85,7 +87,7 @@ class cmenu
 		if(selection<m_entries.length())
 			m_entries[selection]->m_content->action();
 		else
-			std::cout<<"Invalid menu entry!"<<endl;
+			cout<<"Invalid menu entry!"<<endl;
 		return;
 	}
 
@@ -95,7 +97,7 @@ class cmenu
 		{
 			while(true)
 				{
-					std::cin>>input;
+					cin>>input;
 					if(cin.fail())
 						{
 							cout<<"Invalid Input!"<<endl;

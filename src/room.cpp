@@ -333,7 +333,7 @@ void croom::do_input(T& input)
 {
 	while(true)
 		{
-			std::cin>>input;
+			cin>>input;
 			if(cin.fail())
 				{
 					cout<<"Invalid Input!"<<endl;

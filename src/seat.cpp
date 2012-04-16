@@ -81,7 +81,6 @@ void cseat::reserve()
 	
 	/* THEN ask for m_name and save in set new state */
 	cout<<"For whom should the reservation take place?"<<endl;
-	flush_stream(cin);
 	getline(cin, m_name);
 	m_state = RESERVED;
 }
@@ -212,7 +211,7 @@ void cseat::do_input(T& input)
 {
 	while(true)
 		{
-			std::cin>>input;
+			cin>>input;
 			if(cin.fail())
 				{
 					cout<<"Invalid Input!"<<endl;
