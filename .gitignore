@@ -3,6 +3,7 @@ reservation_system
 
 # Compiled Object files
 *.o
+*.a
 
 # Compiled executables
 *.exe
@@ -12,6 +13,7 @@ reservation_system
 .*
 !.gitignore
 *~
+*#*#
 
 # Windows
 Thumbs.db 
