@@ -70,6 +70,4 @@ class cseat
  private:
 	seat_state m_state; /* It's better to save state from external input */
 
-	template<typename T>
-		void do_input(T&);
 };

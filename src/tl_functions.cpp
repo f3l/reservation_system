@@ -1,5 +1,5 @@
 /*
- *  Reservation System - A program to manage rect-shaped seatings
+ *  Reservation System - A programm to manage rect-shaped seatings
  *  Copyright (C) 2012 Johannes Loher / Oliver Rümpelein
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -19,18 +19,17 @@
  *  Get current code at <http://www.github.com/f3l/reservation_system>
  */
 
-#ifndef APPLICATION_DEFINED
-#define APPLICATION_DEFINED
+ /* This file contains overloads of the template functions defined in tl_functions.h" */
 
-class capplication
+#include <iostream>
+#include "tl_functions.h"
+
+using namespace std;
+
+
+/* Overload the do_input function to work correctly with C++ strings */
+void do_input(string& input)
 {
-private:
-	int m_running;
-	
-public:
-	capplication();
-	void run();
-	void end_program();
-};
-
-#endif
+	getline(cin, input); /* No flushing needed in this case, because getline() will remove everything until '\n' on it's own */
+	return;
+}

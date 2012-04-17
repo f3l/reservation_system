@@ -35,7 +35,7 @@ using namespace std;
 #include "room.h"
 #include "linked_list.h"
 #include "menu.h"
-#include "functions.h"
+#include "tl_functions.h"
 
 /*
  * Creates the first cinema (or else) room with given seats per rows and rows,
@@ -101,25 +101,6 @@ void capplication::end_program()
 					cin.clear();
 					cin.ignore();
 					break;
-				}
-		}
-}
-
-template<typename T>
-void capplication::do_input(T& input)
-{
-	while(true)
-		{
-			cin>>input;
-			if(cin.fail())
-				{
-					cout<<"Invalid Input!"<<endl;
-					flush_stream(cin);
-				}
-			else
-				{
-					flush_stream(cin);
-					return;
 				}
 		}
 }

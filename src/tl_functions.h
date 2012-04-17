@@ -1,5 +1,5 @@
 /*
- *  Reservation System - A program to manage rect-shaped seatings
+ *  Reservation System - A programm to manage rect-shaped seatings
  *  Copyright (C) 2012 Johannes Loher / Oliver Rümpelein
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -19,18 +19,38 @@
  *  Get current code at <http://www.github.com/f3l/reservation_system>
  */
 
-#ifndef APPLICATION_DEFINED
-#define APPLICATION_DEFINED
+#ifndef TL_FUNCTIONS
+#define TL_FUNCTIONS
 
-class capplication
+#include <iostream>
+#include <limits>
+
+using namespace std;
+
+template<class T>
+void do_input(T& input)
 {
-private:
-	int m_running;
-	
-public:
-	capplication();
-	void run();
-	void end_program();
-};
+	while(true)
+		{
+			cin>>input;
+			if(cin.fail())
+				{
+					cout<<"Invalid Input!"<<endl;
+
+					/* Flush the input stream */
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				}
+			else
+				{
+					/* Flush the input stream */
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					return;
+				}
+		}
+}
+
+void do_input(string& input);
 
 #endif

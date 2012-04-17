@@ -68,7 +68,4 @@ private:
 	
 	string m_name;
 	uint seat_input(uint& row, uint& line);
-
-	template<typename T>
-		void do_input(T&);
 };

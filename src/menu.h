@@ -25,7 +25,7 @@
 #define MENU_DEFINED
 
 #include "linked_list.h"
-#include "functions.h"
+#include "tl_functions.h"
 #include <iostream>
 #include <string>
 
@@ -90,26 +90,6 @@ class cmenu
 			cout<<"Invalid menu entry!"<<endl;
 		return;
 	}
-
- private:	
-	template<typename T>
-		void do_input(T& input)
-		{
-			while(true)
-				{
-					cin>>input;
-					if(cin.fail())
-						{
-							cout<<"Invalid Input!"<<endl;
-							flush_stream(cin);
-						}
-					else
-						{
-							flush_stream(cin);
-							return;
-						}
-				}
-		}
 
 	public:
 	virtual ~cmenu()
