@@ -15,7 +15,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *  Contact: ghost91@gmx.de or oli_r@fg4f.de
+ *  Contact: jloher@gmx.net or oli_r@fg4f.de
  *  Get current code at <http://www.github.com/f3l/reservation_system>
  */
 
@@ -30,7 +30,7 @@ using namespace std;
 
 /* Get the declarations needed for this file */
 #include "seat.h"
-#include "functions.h"
+#include "tl_functions.h"
 
 cseat::cseat()
 {
@@ -81,8 +81,7 @@ void cseat::reserve()
 	
 	/* THEN ask for m_name and save in set new state */
 	cout<<"For whom should the reservation take place?"<<endl;
-	flush_stream(cin);
-	getline(cin, m_name);
+	do_input(m_name);
 	m_state = RESERVED;
 }
 	
@@ -203,25 +202,6 @@ void cseat::cancel(uint row, uint line)
 					return;
 					break;
 					/* Otherwise, we give it another try */
-				}
-		}
-}
-
-template<typename T>
-void cseat::do_input(T& input)
-{
-	while(true)
-		{
-			std::cin>>input;
-			if(cin.fail())
-				{
-					cout<<"Invalid Input!"<<endl;
-					flush_stream(cin);
-				}
-			else
-				{
-					flush_stream(cin);
-					return;
 				}
 		}
 }

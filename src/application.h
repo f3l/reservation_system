@@ -15,7 +15,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *  Contact: ghost91@gmx.de or oli_r@fg4f.de
+ *  Contact: jloher@gmx.net or oli_r@fg4f.de
  *  Get current code at <http://www.github.com/f3l/reservation_system>
  */
 
@@ -26,8 +26,6 @@ class capplication
 {
 private:
 	int m_running;
-	template<typename T>
-	void do_input(T&);
 	
 public:
 	capplication();

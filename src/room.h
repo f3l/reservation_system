@@ -15,7 +15,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *  Contact: ghost91@gmx.de or oli_r@fg4f.de
+ *  Contact: jloher@gmx.net or oli_r@fg4f.de
  *  Get current code at <http://www.github.com/f3l/reservation_system>
  */
 
@@ -68,7 +68,4 @@ private:
 	
 	string m_name;
 	uint seat_input(uint& row, uint& line);
-
-	template<typename T>
-		void do_input(T&);
 };

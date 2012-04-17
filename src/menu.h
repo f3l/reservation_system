@@ -15,7 +15,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *  Contact: ghost91@gmx.de or oli_r@fg4f.de
+ *  Contact: jloher@gmx.net or oli_r@fg4f.de
  *  Get current code at <http://www.github.com/f3l/reservation_system>
  */
 
@@ -25,9 +25,11 @@
 #define MENU_DEFINED
 
 #include "linked_list.h"
-#include "functions.h"
+#include "tl_functions.h"
 #include <iostream>
 #include <string>
+
+using namespace std;
 
 class imenu_entry
 {
@@ -74,7 +76,7 @@ class cmenu
 	{
 		for(unsigned int i = 0; i < m_entries.length(); i++)
 			{
-				std::cout<<"("<<i<<") "<<m_entries[i]->m_content->name()<<std::endl;
+				cout<<"("<<i<<") "<<m_entries[i]->m_content->name()<<endl;
 			}
 	}
 	
@@ -85,29 +87,9 @@ class cmenu
 		if(selection<m_entries.length())
 			m_entries[selection]->m_content->action();
 		else
-			std::cout<<"Invalid menu entry!"<<endl;
+			cout<<"Invalid menu entry!"<<endl;
 		return;
 	}
-
- private:	
-	template<typename T>
-		void do_input(T& input)
-		{
-			while(true)
-				{
-					std::cin>>input;
-					if(cin.fail())
-						{
-							cout<<"Invalid Input!"<<endl;
-							flush_stream(cin);
-						}
-					else
-						{
-							flush_stream(cin);
-							return;
-						}
-				}
-		}
 
 	public:
 	virtual ~cmenu()

@@ -15,7 +15,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *  Contact: ghost91@gmx.de or oli_r@fg4f.de
+ *  Contact: jloher@gmx.net or oli_r@fg4f.de
  *  Get current code at <http://www.github.com/f3l/reservation_system>
  */
 
@@ -35,7 +35,7 @@ using namespace std;
 #include "room.h"
 #include "linked_list.h"
 #include "menu.h"
-#include "functions.h"
+#include "tl_functions.h"
 
 /*
  * Creates the first cinema (or else) room with given seats per rows and rows,
@@ -101,25 +101,6 @@ void capplication::end_program()
 					cin.clear();
 					cin.ignore();
 					break;
-				}
-		}
-}
-
-template<typename T>
-void capplication::do_input(T& input)
-{
-	while(true)
-		{
-			std::cin>>input;
-			if(cin.fail())
-				{
-					cout<<"Invalid Input!"<<endl;
-					flush_stream(cin);
-				}
-			else
-				{
-					flush_stream(cin);
-					return;
 				}
 		}
 }

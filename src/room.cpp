@@ -15,7 +15,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *  Contact: ghost91@gmx.de or oli_r@fg4f.de
+ *  Contact: jloher@gmx.net or oli_r@fg4f.de
  *  Get current code at <http://www.github.com/f3l/reservation_system>
  */
 
@@ -34,7 +34,7 @@
 
 /* Get the declarations needed for this file */
 #include "room.h"
-#include "functions.h"
+#include "tl_functions.h"
 
 using namespace std;
 
@@ -42,7 +42,7 @@ croom::croom()
 {
 	/* When a new room gets created, we need some basic information about it */
 	cout<<"Name the room:"<<endl;
-	getline(cin, m_name);
+	do_input(m_name);
 	while(true)
 		{
 			cout<<"How many rows does the room have?"<<endl;
@@ -326,23 +326,4 @@ uint croom::seat_input(uint& row, uint& line) /* Asks user for the row/line he w
 				}
 		}
 	return 0;
-}
-
-template<typename T>
-void croom::do_input(T& input)
-{
-	while(true)
-		{
-			std::cin>>input;
-			if(cin.fail())
-				{
-					cout<<"Invalid Input!"<<endl;
-					flush_stream(cin);
-				}
-			else
-				{
-					flush_stream(cin);
-					return;
-				}
-		}
 }
