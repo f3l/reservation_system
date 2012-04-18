@@ -1,5 +1,5 @@
-This document describes the functions from functions.h and
-functions.cpp.
+This document describes the functions from (tl)functions.h and
+(tl)functions.cpp
 
 istream &flush_stream(istream &in)
         - flushes the inputstream given as argument by resetting the
@@ -7,3 +7,10 @@ istream &flush_stream(istream &in)
           newline
         - Problem left: if inpustream wants "int" and we give, for
           example, "2saal", then the next input gets "saal".
+
+template:
+void do_input(T& input)
+        - filters invalid input and retries til valid input
+        - writes into variable given in argument
+        - there is an override-function void do_input(string& input) for
+          input of strings
