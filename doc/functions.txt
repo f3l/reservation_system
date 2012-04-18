@@ -1,16 +1,15 @@
-This document describes the functions from (tl)functions.h and
-(tl)functions.cpp
-
-istream &flush_stream(istream &in)
-        - flushes the inputstream given as argument by resetting the
-          failure-flags and afterwards dropping the content until next
-          newline
-        - Problem left: if inpustream wants "int" and we give, for
-          example, "2saal", then the next input gets "saal".
+This document describes the functions from tl_functions.h and
+tl_functions.cpp
 
 template:
-void do_input(T& input)
+T& do_input(T& input, istream& in = cin, ostream& out = cout)
         - filters invalid input and retries til valid input
         - writes into variable given in argument
-        - there is an override-function void do_input(string& input) for
-          input of strings
+        - returns the input by reference
+        - the optional arguments istream& in and ostream& out define
+          the in- and output streams to be used
+        - there is an overloading function string& do_input(string&
+          input) for input of C++ strings
+        - there is an overloading function char* do_input(char
+          *input, unsigned int len,istream& in = cin, ostream& out =
+          cout) for input of C-style strings
