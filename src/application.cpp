@@ -27,14 +27,14 @@
 	#include <windows.h>
 #endif
 
-using namespace std;
-
 /* And own headers needed */
 #include "application.h"
 #include "room.h"
 #include "menu.h"
 #include "linked_list.h"
 #include "tl_functions.h"
+
+using namespace std;
 
 /*
  * Creates the first cinema (or else) room with given seats per rows and rows,
@@ -50,16 +50,16 @@ void capplication::run()
 {
 	cmenu menu;
 	clinked_list<croom*> theater(1); /* Create a linked list of rooms named theater */
-	theater[0]->m_content = new croom();
-	cnode<croom*>* current_room = theater[0]; /*We need a pointer for our different rooms*/
-	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::print_room, "View Room"));
-	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::handout, "Sell Ticket"));
-	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::reserve, "Reserve Ticket"));
-	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::handout, "Hand out reserved ticket"));
-	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::release, "Cancel reservation"));
-	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::cancel, "Take back ticket"));
-	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::lock, "Make seat unavailable"));
-	menu.add_entry(new cmenu_entry<croom>(current_room->m_content, &croom::unlock, "Make seat available"));
+	theater[0] = new croom();
+	croom* current_room = theater[0]; /* We need a pointer for our different rooms */
+	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::print_room, "View Room"));
+	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::handout, "Sell Ticket"));
+	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::reserve, "Reserve Ticket"));
+	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::handout, "Hand out reserved ticket"));
+	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::release, "Cancel reservation"));
+	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::cancel, "Take back ticket"));
+	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::lock, "Make seat unavailable"));
+	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::unlock, "Make seat available"));
 	menu.add_entry(new cmenu_entry<capplication>(this, &capplication::end_program, "Exit"));
 
 	while(m_running)
@@ -68,7 +68,7 @@ void capplication::run()
 			menu.select();
 		}
 
-	delete theater[0]->m_content;
+	delete theater[0];
 	return;
 }
 

@@ -77,7 +77,7 @@ class cmenu
 	{
 		for(unsigned int i = 0; i < m_entries.length(); i++)
 			{
-				cout<<"("<<i<<") "<<m_entries[i]->m_content->name()<<endl;
+				cout<<"("<<i<<") "<<m_entries[i]->name()<<endl;
 			}
 	}
 	
@@ -85,8 +85,8 @@ class cmenu
 	{
 		unsigned int selection;
 		do_input(selection);
-		if(selection<m_entries.length())
-			m_entries[selection]->m_content->action();
+		if(selection < m_entries.length())
+			m_entries[selection]->action();
 		else
 			cout<<"Invalid menu entry!"<<endl;
 		return;
@@ -97,15 +97,15 @@ class cmenu
 	{
 		for(unsigned int i = 0 ; i < m_entries.length(); i++)
 			{
-				if(m_entries[i]->m_content)
-					delete m_entries[i]->m_content;
+				if(m_entries[i])
+					delete m_entries[i];
 			}
 	}
   
 	void add_entry(imenu_entry *pentry)
 	{
-		m_entries.append_node();
-		m_entries.last()->m_content = pentry;
+		m_entries.append();
+		m_entries.last() = pentry;
 	}
   
 	void display() { do_display(); }
