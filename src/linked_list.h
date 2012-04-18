@@ -24,6 +24,7 @@
 #ifndef LINKED_LIST_DEFINED
 #define LINKED_LIST_DEFINED
 
+#include <stdexcept>
 
 /******************/
 /*  Declaration   */
@@ -61,18 +62,18 @@ class clinked_list
 {
 public:
 	/* Getter funtions */
-	cnode<T> *first() { return m_pfirst; }
-	cnode<T> *last() { return m_plast; }
+	T& first();
+	T& last();
 	unsigned int length() { return m_length; }
 
 	/* Normal fuctions */
 	clinked_list();
 	clinked_list(unsigned int length);
 	virtual ~clinked_list();
-	virtual void append_node();
-	virtual void insert_node(unsigned int pos);
-	virtual void delete_node(unsigned int pos);
-	cnode<T> *operator [] (unsigned int n);
+	virtual void append();
+	virtual void insert(unsigned int pos);
+	virtual void remove(unsigned int pos);
+	T& operator [] (unsigned int n);
 
 private:
 	cnode<T> *m_pfirst, *m_plast;
@@ -101,6 +102,22 @@ cnode<T>::~cnode()
 
 
 /* Implementation of the linked_list class */
+
+template <class T>
+T& clinked_list<T>::first()
+{
+	if(!m_pfirst)
+		throw std::out_of_range("element does not exist!");
+	return m_pfirst->m_content;
+}
+
+template <class T>
+T& clinked_list<T>::last()
+{
+	if(!m_plast)
+		throw std::out_of_range("element does not exist!");
+	return m_plast->m_content;
+}
 
 template <class T>
 clinked_list<T>::clinked_list()
@@ -138,7 +155,7 @@ clinked_list<T>::~clinked_list()
 }
 
 template <class T>
-void clinked_list<T>::append_node()
+void clinked_list<T>::append()
 {
 	cnode<T> *pnew_node = new cnode<T>;
 	if(m_pfirst)
@@ -158,7 +175,7 @@ void clinked_list<T>::append_node()
 }
 
 template <class T>
-void clinked_list<T>::insert_node(unsigned int pos)
+void clinked_list<T>::insert(unsigned int pos)
 {
 	cnode<T> *pnew_node = new cnode<T>;
 
@@ -188,7 +205,7 @@ void clinked_list<T>::insert_node(unsigned int pos)
 }
 
 template <class T>
-void clinked_list<T>::delete_node(unsigned int pos)
+void clinked_list<T>::remove(unsigned int pos)
 {
 	cnode<T> *ptemp, *pcurrent_node = m_pfirst;
 	if(pos == 0) /* Delete the first node */
@@ -216,7 +233,7 @@ void clinked_list<T>::delete_node(unsigned int pos)
 }
 
 template <class T>
-cnode<T> *clinked_list<T>::operator [] (unsigned int n)
+T& clinked_list<T>::operator [] (unsigned int n)
 {
 	cnode<T> *pcurrent_node = m_pfirst;
 	for(unsigned int i = 0; i < n; i++)
@@ -224,9 +241,9 @@ cnode<T> *clinked_list<T>::operator [] (unsigned int n)
 			if(pcurrent_node->m_pnext)
 				pcurrent_node = pcurrent_node->m_pnext;
 			else
-				return 0;
+				throw std::out_of_range("element does not exist!");
 		}
-	return pcurrent_node;
+	return pcurrent_node->m_content;
 }
 
 #endif
