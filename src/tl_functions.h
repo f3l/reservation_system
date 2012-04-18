@@ -28,29 +28,32 @@
 using namespace std;
 
 template<class T>
-void do_input(T& input)
+T& do_input(T& input, istream& in = cin, ostream& out = cout)
 {
 	while(true)
 		{
-			cin>>input;
-			if(cin.fail())
+			in>>input;
+			if(in.fail())
 				{
-					cout<<"Invalid Input!"<<endl;
+					out<<"Invalid Input!"<<endl;
 
 					/* Flush the input stream */
-					cin.clear();
-					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					in.clear();
+					in.ignore(numeric_limits<streamsize>::max(), '\n');
 				}
 			else
 				{
 					/* Flush the input stream */
-					cin.clear();
-					cin.ignore(numeric_limits<streamsize>::max(), '\n');
-					return;
+					in.clear();
+					in.ignore(numeric_limits<streamsize>::max(), '\n');
+					return input;
 				}
 		}
 }
 
-void do_input(string& input);
+/* Overloaded functions of do_input are implemented in tl_functions.cpp */
+string& do_input(string& input, istream& in = cin, ostream& out = cout);
+char* do_input(char *input, unsigned int len, istream& in = cin, ostream& out = cout);
+
 
 #endif

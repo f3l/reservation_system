@@ -26,9 +26,10 @@
  */
 
 #include <string>
-using namespace std;
 
-#include "seat.h" /*We need our seat-class*/
+#include "seat.h" /* Get the declarations for the seat class */
+
+using namespace std;
 
 typedef unsigned int uint; /* We will need many unsignes ints */
 

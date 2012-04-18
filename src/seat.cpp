@@ -26,11 +26,12 @@
 #include <iostream>
 #include <string>
 #include <limits>
-using namespace std;
 
 /* Get the declarations needed for this file */
 #include "seat.h"
 #include "tl_functions.h"
+
+using namespace std;
 
 cseat::cseat()
 {

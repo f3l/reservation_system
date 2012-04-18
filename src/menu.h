@@ -24,10 +24,11 @@
 #ifndef MENU_DEFINED
 #define MENU_DEFINED
 
-#include "linked_list.h"
-#include "tl_functions.h"
 #include <iostream>
 #include <string>
+
+#include "linked_list.h"
+#include "tl_functions.h"
 
 using namespace std;
 

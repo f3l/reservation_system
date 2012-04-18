@@ -21,20 +21,19 @@
 
 
 /* Include basic headers */
-#include<iostream>
-#include<cstdlib>
+#include <iostream>
+#include <cstdlib>
 #ifdef _WIN32
-#include <windows.h>
+	#include <windows.h>
 #endif
 
 using namespace std;
 
 /* And own headers needed */
-
 #include "application.h"
 #include "room.h"
-#include "linked_list.h"
 #include "menu.h"
+#include "linked_list.h"
 #include "tl_functions.h"
 
 /*

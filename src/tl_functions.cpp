@@ -19,17 +19,28 @@
  *  Get current code at <http://www.github.com/f3l/reservation_system>
  */
 
- /* This file contains overloads of the template functions defined in tl_functions.h" */
+ /* This file contains the implementations of the overloaded functions of the template functions defined in tl_functions.h */
 
 #include <iostream>
+
 #include "tl_functions.h"
 
 using namespace std;
 
 
 /* Overload the do_input function to work correctly with C++ strings */
-void do_input(string& input)
+string& do_input(string& input, istream& in, ostream& out)
 {
-	getline(cin, input); /* No flushing needed in this case, because getline() will remove everything until '\n' on it's own */
-	return;
+	getline(in, input); /* No flushing needed in this case, because getline() will remove everything until '\n' on it's own */
+	return input;
+}
+
+/* Overload the do_input function to work correctly with C-style strings */
+char* do_input(char *input, unsigned int len, istream& in, ostream& out)
+{
+	in.get(input, len); /* Use get() instead of getline() so that the delimiter '\n' does not get removed and we can flush the stream safely */
+	/* Flush the input stream */
+	in.clear();
+	in.ignore(numeric_limits<streamsize>::max(), '\n');
+	return input;
 }

@@ -29,7 +29,7 @@
 
 /* We need some windows specific stuff if we want to be able to set colors in windows */
 #ifdef _WIN32
-	#include<windows.h>
+	#include <windows.h>
 #endif
 
 /* Get the declarations needed for this file */
