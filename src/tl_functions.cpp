@@ -28,14 +28,14 @@
 using namespace std;
 
 
-/* Overload the do_input function to work correctly with C++ strings */
+/* Overload the do_input() function to work correctly with C++ strings */
 string& do_input(string& input, istream& in, ostream& out)
 {
 	getline(in, input); /* No flushing needed in this case, because getline() will remove everything until '\n' on it's own */
 	return input;
 }
 
-/* Overload the do_input function to work correctly with C-style strings */
+/* Overload the do_input() function to work correctly with C-style strings */
 char* do_input(char *input, unsigned int len, istream& in, ostream& out)
 {
 	in.get(input, len); /* Use get() instead of getline() so that the delimiter '\n' does not get removed and we can flush the stream safely */
