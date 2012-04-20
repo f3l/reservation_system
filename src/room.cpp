@@ -107,7 +107,12 @@ croom::croom(uint rows, uint lines, string name)
 		}
 }
 
-void croom::print_room()
+string croom::name()
+{
+	return m_name;
+}
+
+void croom::print()
 /*
  * Maybe we can split output into seats? wel'll see
  * that when basic routines are implemented

@@ -25,6 +25,9 @@
  * To see how it works, and what it provides, see /doc/classes
  */
 
+#ifndef ROOM_DEFINED
+#define ROOM_DEFINED
+
 #include <string>
 
 #include "seat.h" /* Get the declarations for the seat class */
@@ -40,7 +43,8 @@ public:
 	croom();
 	croom(uint rows, uint lines, string name);
 	~croom();
-	void print_room();
+	string name();
+	void print();
 	void lock();
 	void unlock();
 	void reserve();
@@ -70,3 +74,5 @@ private:
 	string m_name;
 	uint seat_input(uint& row, uint& line);
 };
+
+#endif

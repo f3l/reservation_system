@@ -23,6 +23,7 @@
 /* Include basic headers */
 #include <iostream>
 #include <cstdlib>
+#include <stdexcept>
 #ifdef _WIN32
 	#include <windows.h>
 #endif
@@ -44,32 +45,115 @@ using namespace std;
 capplication::capplication()
 {
 	m_running = 1;
+	m_room_edit_mode = 0;
+	m_main_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::list_rooms, "List rooms"));
+	m_main_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::add_room, "Add a room"));
+	m_main_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::edit_room, "Edit a room"));
+	m_main_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::delete_room, "Delete a room"));
+	m_main_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::end_program, "Quit"));
+}
+
+capplication::~capplication()
+{
+	for(unsigned int i = 0; i < m_rooms.length(); i++)
+		if(m_rooms[i])
+			delete m_rooms[i];
 }
 
 void capplication::run()
 {
-	cmenu menu;
-	clinked_list<croom*> theater(1); /* Create a linked list of rooms named theater */
-	theater[0] = new croom();
-	croom* current_room = theater[0]; /* We need a pointer for our different rooms */
-	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::print_room, "View Room"));
-	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::handout, "Sell Ticket"));
-	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::reserve, "Reserve Ticket"));
-	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::handout, "Hand out reserved ticket"));
-	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::release, "Cancel reservation"));
-	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::cancel, "Take back ticket"));
-	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::lock, "Make seat unavailable"));
-	menu.add_entry(new cmenu_entry<croom>(current_room, &croom::unlock, "Make seat available"));
-	menu.add_entry(new cmenu_entry<capplication>(this, &capplication::end_program, "Exit"));
-
 	while(m_running)
 		{
-			menu.display();
-			menu.select();
+			m_main_menu.display();
+			m_main_menu.select();
 		}
-
-	delete theater[0];
 	return;
+}
+
+void capplication::list_rooms()
+{
+	for(unsigned int i; i < m_rooms.length(); i++)
+		if(m_rooms[i])
+			cout<<i+1<<": "<<m_rooms[i]->name()<<endl;
+	return;
+}
+
+void capplication::add_room()
+{
+	m_rooms.append();
+	m_rooms.last() = new croom;
+	return;
+}
+
+void capplication::edit_room()
+{
+	unsigned int selection = 0;
+	do
+		{
+			cout<<"Please enter the number of the room you want to edit! (Enter 0 to abbort)"<<endl;
+			do_input(selection);
+			if(selection == 0)
+				return;
+			try
+				{
+					m_pcurrent_room = m_rooms[selection-1];
+				}
+			catch(...)
+				{
+					m_pcurrent_room = 0;
+				}
+			if(!m_pcurrent_room)
+				cout<<"There is no room corresponding to the number you entered."<<endl;
+		}
+	while(!m_pcurrent_room);
+	cmenu room_menu;
+	room_menu.add_entry(new cmenu_entry<croom>(m_pcurrent_room, &croom::print, "View Room"));
+	room_menu.add_entry(new cmenu_entry<croom>(m_pcurrent_room, &croom::handout, "Sell Ticket"));
+	room_menu.add_entry(new cmenu_entry<croom>(m_pcurrent_room, &croom::reserve, "Reserve Ticket"));
+	room_menu.add_entry(new cmenu_entry<croom>(m_pcurrent_room, &croom::handout, "Hand out reserved ticket"));
+	room_menu.add_entry(new cmenu_entry<croom>(m_pcurrent_room, &croom::release, "Cancel reservation"));
+	room_menu.add_entry(new cmenu_entry<croom>(m_pcurrent_room, &croom::cancel, "Take back ticket"));
+	room_menu.add_entry(new cmenu_entry<croom>(m_pcurrent_room, &croom::lock, "Make seat unavailable"));
+	room_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::exit_room_edit, "Return to main menu"));
+
+	m_room_edit_mode = 1;
+	while(m_room_edit_mode)
+		{
+			room_menu.display();
+			room_menu.select();
+		}
+	return;
+}
+
+void capplication::delete_room()
+{
+	unsigned int selection = 0;
+	do
+		{
+			cout<<"Please enter the number of the room you want to delete! (Enter 0 to abbort)"<<endl;
+			do_input(selection);
+			if(selection == 0)
+				return;
+			try
+				{
+					m_pcurrent_room = m_rooms[selection-1];
+				}
+			catch(...)
+				{
+					m_pcurrent_room = 0;
+				}
+			if(!m_pcurrent_room)
+				cout<<"There is no room corresponding to the number you entered."<<endl;
+		}
+	while(!m_pcurrent_room);
+	delete m_pcurrent_room;
+	m_rooms.remove(selection-1);
+	return;
+}
+
+void capplication::exit_room_edit()
+{
+	m_room_edit_mode = 0;
 }
 
 /* Asks for verification, if succesfull terminates process */

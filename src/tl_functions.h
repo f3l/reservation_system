@@ -19,8 +19,8 @@
  *  Get current code at <http://www.github.com/f3l/reservation_system>
  */
 
-#ifndef TL_FUNCTIONS
-#define TL_FUNCTIONS
+#ifndef TL_FUNCTIONS_DEFINED
+#define TL_FUNCTIONS_DEFINED
 
 #include <iostream>
 #include <limits>

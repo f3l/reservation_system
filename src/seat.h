@@ -24,6 +24,9 @@
  * To see how it works, and what it provides, see /doc/classes
  */
 
+#ifndef SEAT_DEFINED
+#define SEAT_DEFINED
+
 #include <string>
 
 using namespace std;
@@ -71,3 +74,5 @@ class cseat
 	seat_state m_state; /* It's better to save state from external input */
 
 };
+
+#endif

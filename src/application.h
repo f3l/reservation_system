@@ -22,14 +22,27 @@
 #ifndef APPLICATION_DEFINED
 #define APPLICATION_DEFINED
 
+#include "room.h"
+#include "menu.h"
+#include "linked_list.h"
+
 class capplication
 {
 private:
-	int m_running;
+	int m_running, m_room_edit_mode;
+	croom *m_pcurrent_room;
+	cmenu m_main_menu;
+	clinked_list<croom*> m_rooms;
 	
 public:
 	capplication();
+	~capplication();
 	void run();
+	void list_rooms();
+	void add_room();
+	void delete_room();
+	void edit_room();
+	void exit_room_edit();
 	void end_program();
 };
 
