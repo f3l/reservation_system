@@ -38,14 +38,13 @@
 using namespace std;
 
 /*
- * Creates the first cinema (or else) room with given seats per rows and rows,
- * and then provides a simple menu for actions like reservations, etc.
+ * Provides a simple menu to create, edit and delete rooms.
+ * When editing a room, you have the option to make reservations etc. 
  */
 
-capplication::capplication()
+capplication::capplication() : m_running(1), m_return_to_main_menu(1)
 {
-	m_running = 1;
-	m_room_edit_mode = 0;
+	/* Add the menuetries for the main menu*/
 	m_main_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::list_rooms, "List rooms"));
 	m_main_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::add_room, "Add a room"));
 	m_main_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::edit_room, "Edit a room"));
@@ -55,6 +54,7 @@ capplication::capplication()
 
 capplication::~capplication()
 {
+	/* Free the memory of all rooms that are available */
 	for(unsigned int i = 0; i < m_rooms.length(); i++)
 		if(m_rooms[i])
 			delete m_rooms[i];
@@ -72,7 +72,7 @@ void capplication::run()
 
 void capplication::list_rooms()
 {
-	for(unsigned int i; i < m_rooms.length(); i++)
+	for(unsigned int i = 0; i < m_rooms.length(); i++)
 		if(m_rooms[i])
 			cout<<i+1<<": "<<m_rooms[i]->name()<<endl;
 	return;
@@ -88,36 +88,42 @@ void capplication::add_room()
 void capplication::edit_room()
 {
 	unsigned int selection = 0;
+	croom* pcurrent_room;
+	/* Loop until we got a valid selection or until the user abborted */
 	do
 		{
 			cout<<"Please enter the number of the room you want to edit! (Enter 0 to abbort)"<<endl;
 			do_input(selection);
 			if(selection == 0)
 				return;
+			/* We need a try/catch clock here, because clinked_list throws an exception, if the element we want to access does not exist */
 			try
 				{
-					m_pcurrent_room = m_rooms[selection-1];
+					pcurrent_room = m_rooms[selection-1];
 				}
-			catch(...)
+			catch(out_of_range)
 				{
-					m_pcurrent_room = 0;
+					pcurrent_room = 0;
 				}
-			if(!m_pcurrent_room)
+			if(!pcurrent_room)
 				cout<<"There is no room corresponding to the number you entered."<<endl;
 		}
-	while(!m_pcurrent_room);
-	cmenu room_menu;
-	room_menu.add_entry(new cmenu_entry<croom>(m_pcurrent_room, &croom::print, "View Room"));
-	room_menu.add_entry(new cmenu_entry<croom>(m_pcurrent_room, &croom::handout, "Sell Ticket"));
-	room_menu.add_entry(new cmenu_entry<croom>(m_pcurrent_room, &croom::reserve, "Reserve Ticket"));
-	room_menu.add_entry(new cmenu_entry<croom>(m_pcurrent_room, &croom::handout, "Hand out reserved ticket"));
-	room_menu.add_entry(new cmenu_entry<croom>(m_pcurrent_room, &croom::release, "Cancel reservation"));
-	room_menu.add_entry(new cmenu_entry<croom>(m_pcurrent_room, &croom::cancel, "Take back ticket"));
-	room_menu.add_entry(new cmenu_entry<croom>(m_pcurrent_room, &croom::lock, "Make seat unavailable"));
-	room_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::exit_room_edit, "Return to main menu"));
+	while(!pcurrent_room);
 
-	m_room_edit_mode = 1;
-	while(m_room_edit_mode)
+	/* Create the room menu */
+	cmenu room_menu;
+	room_menu.add_entry(new cmenu_entry<croom>(pcurrent_room, &croom::print, "View Room"));
+	room_menu.add_entry(new cmenu_entry<croom>(pcurrent_room, &croom::handout, "Sell Ticket"));
+	room_menu.add_entry(new cmenu_entry<croom>(pcurrent_room, &croom::reserve, "Reserve Ticket"));
+	room_menu.add_entry(new cmenu_entry<croom>(pcurrent_room, &croom::handout, "Hand out reserved ticket"));
+	room_menu.add_entry(new cmenu_entry<croom>(pcurrent_room, &croom::release, "Cancel reservation"));
+	room_menu.add_entry(new cmenu_entry<croom>(pcurrent_room, &croom::cancel, "Take back ticket"));
+	room_menu.add_entry(new cmenu_entry<croom>(pcurrent_room, &croom::lock, "Make seat unavailable"));
+	room_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::return_to_main_menu, "Return to main menu"));
+
+	/* Show the room menu and select entries from it as long as we are not returning to the main menu */
+	m_return_to_main_menu = 0;
+	while(!m_return_to_main_menu)
 		{
 			room_menu.display();
 			room_menu.select();
@@ -128,32 +134,37 @@ void capplication::edit_room()
 void capplication::delete_room()
 {
 	unsigned int selection = 0;
+	croom* pcurrent_room;
+	/* Loop until we got a valid selection or until the user abborted */
 	do
 		{
 			cout<<"Please enter the number of the room you want to delete! (Enter 0 to abbort)"<<endl;
 			do_input(selection);
 			if(selection == 0)
 				return;
+			/* We need a try/catch clock here, because clinked_list throws an exception, if the element we want to access does not exist */
 			try
 				{
-					m_pcurrent_room = m_rooms[selection-1];
+					pcurrent_room = m_rooms[selection-1];
 				}
-			catch(...)
+			catch(out_of_range)
 				{
-					m_pcurrent_room = 0;
+					pcurrent_room = 0;
 				}
-			if(!m_pcurrent_room)
+			if(!pcurrent_room)
 				cout<<"There is no room corresponding to the number you entered."<<endl;
 		}
-	while(!m_pcurrent_room);
-	delete m_pcurrent_room;
-	m_rooms.remove(selection-1);
+	while(!pcurrent_room);
+
+	delete pcurrent_room;			/* Free the memory of the room we want to delete */
+	m_rooms.remove(selection-1);	/* Remove the room from the linked list */
 	return;
 }
 
-void capplication::exit_room_edit()
+void capplication::return_to_main_menu()
 {
-	m_room_edit_mode = 0;
+	/* Return to main menu */
+	m_return_to_main_menu = 1;
 }
 
 /* Asks for verification, if succesfull terminates process */
@@ -163,7 +174,7 @@ void capplication::end_program()
 	char confirm = 'n';
 	while(true)
 		{
-			cout<<"Do you really want to quit program?(y/N)"<<endl;
+			cout<<"Do you really want to quit the program?(y/N)"<<endl;
 			cout<<"Your rooms will be lost!"<<endl;
 			
 			do_input(confirm);
@@ -181,8 +192,6 @@ void capplication::end_program()
 					break;
 				default:
 					cout<<"Invalid Input!"<<endl;
-					cin.clear();
-					cin.ignore();
 					break;
 				}
 		}

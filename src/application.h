@@ -29,8 +29,7 @@
 class capplication
 {
 private:
-	int m_running, m_room_edit_mode;
-	croom *m_pcurrent_room;
+	int m_running, m_return_to_main_menu;
 	cmenu m_main_menu;
 	clinked_list<croom*> m_rooms;
 	
@@ -42,7 +41,7 @@ public:
 	void add_room();
 	void delete_room();
 	void edit_room();
-	void exit_room_edit();
+	void return_to_main_menu();
 	void end_program();
 };
 

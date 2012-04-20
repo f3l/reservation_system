@@ -236,6 +236,8 @@ template <class T>
 T& clinked_list<T>::operator [] (unsigned int n)
 {
 	cnode<T> *pcurrent_node = m_pfirst;
+	if(!pcurrent_node)
+		throw std::out_of_range("element does not exist!");
 	for(unsigned int i = 0; i < n; i++)
 		{
 			if(pcurrent_node->m_pnext)

@@ -86,12 +86,8 @@ croom::~croom()
 	delete[] m_ppseats;
 }
 
-croom::croom(uint rows, uint lines, string name)
-{
-	m_name = name;
-	m_rows = rows;
-	m_lines = lines;
-	
+croom::croom(uint rows, uint lines, string name) : m_rows(rows), m_lines(lines), m_name(name)
+{	
 	/* We need to create a real dynamic array for seats */
 	m_ppseats = new cseat * [m_rows];
 	
@@ -113,10 +109,6 @@ string croom::name()
 }
 
 void croom::print()
-/*
- * Maybe we can split output into seats? wel'll see
- * that when basic routines are implemented
- */
 {
 	/* At first we need a line of numbers for the LINES, above, there's the room name */
 	cout<<m_name<<endl;
