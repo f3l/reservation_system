@@ -77,15 +77,6 @@ croom::croom()
 		}
 }
 
-croom::~croom()
-{
-	for(uint i = 0; i < m_rows; i++)
-		{
-			delete[] m_ppseats[i];
-		}
-	delete[] m_ppseats;
-}
-
 croom::croom(uint rows, uint lines, string name) : m_rows(rows), m_lines(lines), m_name(name)
 {	
 	/* We need to create a real dynamic array for seats */
@@ -101,6 +92,15 @@ croom::croom(uint rows, uint lines, string name) : m_rows(rows), m_lines(lines),
 		{
 			m_ppseats[i] = new cseat[m_lines];
 		}
+}
+
+croom::~croom()
+{
+	for(uint i = 0; i < m_rows; i++)
+		{
+			delete[] m_ppseats[i];
+		}
+	delete[] m_ppseats;
 }
 
 string croom::name()

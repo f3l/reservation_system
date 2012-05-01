@@ -80,8 +80,7 @@ void capplication::list_rooms()
 
 void capplication::add_room()
 {
-	m_rooms.append();
-	m_rooms.last() = new croom;
+	m_rooms.append(new croom);
 	return;
 }
 

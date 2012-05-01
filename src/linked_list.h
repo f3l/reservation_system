@@ -49,6 +49,7 @@ public:
 
 	/* Normal functions */
 	cnode();
+	cnode(const T& content);
 	virtual ~cnode();
 
 private: 
@@ -71,7 +72,9 @@ public:
 	clinked_list(unsigned int length);
 	virtual ~clinked_list();
 	virtual void append();
+	virtual void append(const T& content);
 	virtual void insert(unsigned int pos);
+	virtual void insert(const T& content, unsigned int pos);
 	virtual void remove(unsigned int pos);
 	T& operator [] (unsigned int n);
 
@@ -89,9 +92,15 @@ private:
 /* Implementation of the node class */
 
 template <class T>
-cnode<T>::cnode()
+cnode<T>::cnode() : m_pnext(0)
 {
-	m_pnext = 0;
+
+}
+
+template <class T>
+cnode<T>::cnode(const T& content) : m_content(content), m_pnext(0)
+{
+
 }
 
 template <class T>
@@ -175,9 +184,59 @@ void clinked_list<T>::append()
 }
 
 template <class T>
+void clinked_list<T>::append(const T& content)
+{
+	cnode<T> *pnew_node = new cnode<T>(content);
+	if(m_pfirst)
+		{
+			cnode<T> *pcurrent_node = m_pfirst;
+			while(pcurrent_node->m_pnext)
+				pcurrent_node = pcurrent_node->m_pnext;
+			pcurrent_node->m_pnext = pnew_node;
+		}
+	else
+		{
+			m_pfirst = pnew_node;
+		}
+	m_plast = pnew_node;
+	m_length++;
+	return;
+}
+
+template <class T>
 void clinked_list<T>::insert(unsigned int pos)
 {
 	cnode<T> *pnew_node = new cnode<T>;
+
+	if(pos == 0) /* Create a new node at the start of the list and set m_pfirst to point to the new node */
+		{
+			pnew_node->m_pnext = m_pfirst;
+			m_pfirst = pnew_node;
+		}
+	else /* Insert a node somewhere inside or at the end of the list */
+		{
+			cnode<T> *pcurrent_node = m_pfirst;
+			for(unsigned int i = 0; i < pos - 1; i++)
+				{
+					if(pcurrent_node->m_pnext)
+						pcurrent_node = pcurrent_node->m_pnext;
+					else
+						break;
+				}
+			pnew_node->m_pnext = pcurrent_node->m_pnext;
+			pcurrent_node->m_pnext = pnew_node;
+			if(m_plast == pcurrent_node)
+				m_plast = pnew_node;
+		}
+	m_length++;
+
+	return;
+}
+
+template <class T>
+void clinked_list<T>::insert(const T& content, unsigned int pos)
+{
+	cnode<T> *pnew_node = new cnode<T>(content);
 
 	if(pos == 0) /* Create a new node at the start of the list and set m_pfirst to point to the new node */
 		{
