@@ -6,6 +6,8 @@ end
 
 function build(settings)
 	settings.cc.Output = Intermediate_Output
+	SetDriversGCC(settings)
+	settings.cc.flags:Add("-Wall")
 	source = Collect("src/*.cpp")
 	objects = Compile(settings, source)
 	exe = Link(settings, "reservation_system", objects)
