@@ -32,4 +32,4 @@ release_settings.cc.defines:Add("CONF_RELEASE")
 
 release = build(release_settings)
 debug = build(debug_settings)
-PseudoTarget("all", release, debug)
+
