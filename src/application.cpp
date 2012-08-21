@@ -26,6 +26,9 @@
 #include <stdexcept>
 #ifdef _WIN32
 	#include <windows.h>
+	#ifdef max
+		#undef max
+	#endif
 #endif
 
 /* And own headers needed */

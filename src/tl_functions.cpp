@@ -22,6 +22,7 @@
  /* This file contains the implementations of the overloaded functions of the template functions defined in tl_functions.h */
 
 #include <iostream>
+#include <string>
 
 #include "tl_functions.h"
 

@@ -6,12 +6,28 @@ end
 
 function build(settings)
 	settings.cc.Output = Intermediate_Output
-	SetDriversGCC(settings)
-	settings.cc.flags:Add("-Wall")
+	--SetDriversGCC(settings)
+	--settings.cc.flags:Add("/EHsc")
+	choose_compiler(settings)
 	source = Collect("src/*.cpp")
 	objects = Compile(settings, source)
 	exe = Link(settings, "reservation_system", objects)
 	return PseudoTarget(settings.config_name, exe)
+end
+
+function choose_compiler(settings)
+	if ExecuteSilent("cl") == 0 then
+		SetDriversCL(settings)
+		settings.cc.flags:Add("/EHsc")
+	elseif ExecuteSilent("g++ -v") == 0 then
+		SetDriversGCC(settings)
+		settings.cc.flags:Add("-Wall")
+	elseif ExecuteSilent("clang -v") == 0 then
+		SetDriversClang(settings)
+		settings.cc.flags:Add("-Wall")
+	else
+		error("no c/c++ compiler found")
+	end
 end
 
 -- Create the debug settings

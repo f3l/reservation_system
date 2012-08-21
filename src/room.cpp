@@ -30,6 +30,9 @@
 /* We need some windows specific stuff if we want to be able to set colors in windows */
 #ifdef _WIN32
 	#include <windows.h>
+	#ifdef max
+		#undef max
+	#endif
 #endif
 
 /* Get the declarations needed for this file */
