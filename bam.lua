@@ -6,8 +6,6 @@ end
 
 function build(settings)
 	settings.cc.Output = Intermediate_Output
-	--SetDriversGCC(settings)
-	--settings.cc.flags:Add("/EHsc")
 	choose_compiler(settings)
 	source = Collect("src/*.cpp")
 	objects = Compile(settings, source)
@@ -22,7 +20,7 @@ function choose_compiler(settings)
 	elseif ExecuteSilent("g++ -v") == 0 then
 		SetDriversGCC(settings)
 		settings.cc.flags:Add("-Wall")
-	elseif ExecuteSilent("clang -v") == 0 then
+	elseif ExecuteSilent("clang++ -v") == 0 then
 		SetDriversClang(settings)
 		settings.cc.flags:Add("-Wall")
 	else
