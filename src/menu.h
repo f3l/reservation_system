@@ -28,6 +28,7 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <stdexcept>
 
 #include "tl_functions.h"
 
@@ -74,9 +75,9 @@ class cmenu
 	vector<imenu_entry*> m_entries;
 	virtual void do_display()
 	{
-		for(unsigned int i = 0; i < m_entries.size(); i++)
+		for(auto entry = m_entries.begin(); entry != m_entries.end(); ++entry)
 			{
-				cout<<"("<<i<<") "<<m_entries[i]->name()<<endl;
+				cout<<"("<<entry - m_entries.begin()<<") "<<(*entry)->name()<<endl;
 			}
 	}
 	
@@ -84,21 +85,22 @@ class cmenu
 	{
 		unsigned int selection;
 		do_input(selection);
-		if(selection < m_entries.size())
-			m_entries[selection]->action();
-		else
-			cout<<"Invalid menu entry!"<<endl;
+		try
+			{
+				m_entries.at(selection)->action();
+			}
+		catch(out_of_range)
+			{
+				cout<<"Invalid menu entry!"<<endl;
+			}
 		return;
 	}
 
 	public:
 	virtual ~cmenu()
 	{
-		for(unsigned int i = 0 ; i < m_entries.size(); i++)
-			{
-				if(m_entries[i])
-					delete m_entries[i];
-			}
+		for(auto current_entry : m_entries)
+			delete current_entry;
 	}
   
 	void add_entry(imenu_entry *pentry)

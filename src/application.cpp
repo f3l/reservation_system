@@ -57,9 +57,9 @@ capplication::capplication() : m_running(1), m_return_to_main_menu(1)
 capplication::~capplication()
 {
 	/* Free the memory of all rooms that are available */
-	for(unsigned int i = 0; i < m_rooms.size(); i++)
-		if(m_rooms[i])
-			delete m_rooms[i];
+	for(auto current_room : m_rooms)
+		if(current_room)
+			delete current_room;
 }
 
 void capplication::run()
@@ -74,9 +74,9 @@ void capplication::run()
 
 void capplication::list_rooms()
 {
-	for(unsigned int i = 0; i < m_rooms.size(); i++)
-		if(m_rooms[i])
-			cout<<i+1<<": "<<m_rooms[i]->name()<<endl;
+	for(auto current_room = m_rooms.begin(); current_room != m_rooms.end(); ++current_room)
+		if(*current_room)
+			cout<<current_room - m_rooms.begin() + 1 <<": "<<(*current_room)->name()<<endl;
 	return;
 }
 
