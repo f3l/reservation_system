@@ -82,7 +82,35 @@ void capplication::list_rooms()
 
 void capplication::add_room()
 {
-	m_rooms.push_back(new croom);
+	string name;
+	uint rows = 0, lines = 0;
+	cout<<"Name the room:"<<endl;
+	do_input(name);
+	while(true)
+		{
+			cout<<"How many rows does the room have?"<<endl;
+			do_input(rows);
+			if(rows == 0)
+				{
+					cout<<"Please enter a positive number!"<<endl;
+					continue;
+				}
+			else
+				break;
+		}
+	while(true)
+		{
+			cout<<"How many seats per row?"<<endl;
+			do_input(lines);
+			if(lines == 0)
+				{
+					cout<<"Please enter a positive number!"<<endl;
+					continue;
+				}
+			else
+				break;
+		}
+	m_rooms.push_back(new croom(rows, lines, name));
 	return;
 }
 
@@ -143,7 +171,7 @@ void capplication::delete_room()
 			do_input(selection);
 			if(selection == 0)
 				return;
-			/* We need a try/catch clock here, because clinked_list throws an exception, if the element we want to access does not exist */
+			/* We need a try/catch clock here, because vector throws an exception, if the element we want to access does not exist */
 			try
 				{
 					pcurrent_room = m_rooms.at(selection-1);

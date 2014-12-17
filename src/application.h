@@ -27,6 +27,8 @@
 #include "room.h"
 #include "menu.h"
 
+typedef unsigned int uint;
+
 using namespace std;
 
 class capplication

@@ -41,45 +41,6 @@
 
 using namespace std;
 
-croom::croom()
-{
-	/* When a new room gets created, we need some basic information about it */
-	cout<<"Name the room:"<<endl;
-	do_input(m_name);
-	while(true)
-		{
-			cout<<"How many rows does the room have?"<<endl;
-			do_input(m_rows);
-			if(m_rows == 0)
-				{
-					cout<<"Please enter a positive number!"<<endl;
-					continue;
-				}
-			else
-				break;
-		}
-	while(true)
-		{
-			cout<<"How many seats per row?"<<endl;
-			do_input(m_lines);
-			if(m_lines == 0)
-				{
-					cout<<"Please enter a positive number!"<<endl;
-					continue;
-				}
-			else
-				break;
-		}
-	
-	/* We need to create a real dynamic array for seats */
-	m_ppseats = new cseat * [m_rows];
-	
-	for(uint i = 0; i < m_rows; ++i)
-		{
-			m_ppseats[i] = new cseat[m_lines];
-		}
-}
-
 croom::croom(uint rows, uint lines, string name) : m_rows(rows), m_lines(lines), m_name(name)
 {	
 	/* We need to create a real dynamic array for seats */

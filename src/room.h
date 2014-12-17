@@ -40,7 +40,6 @@ class croom
 {
 public:
 
-	croom();
 	croom(uint rows, uint lines, string name);
 	~croom();
 	string name();
