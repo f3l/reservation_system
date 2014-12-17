@@ -22,16 +22,19 @@
 #ifndef APPLICATION_DEFINED
 #define APPLICATION_DEFINED
 
+#include <vector>
+
 #include "room.h"
 #include "menu.h"
-#include "linked_list.h"
+
+using namespace std;
 
 class capplication
 {
 private:
 	int m_running, m_return_to_main_menu;
 	cmenu m_main_menu;
-	clinked_list<croom*> m_rooms;
+	vector<croom*> m_rooms;
 	
 public:
 	capplication();

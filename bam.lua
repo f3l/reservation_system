@@ -20,6 +20,7 @@ function choose_compiler(settings)
 	elseif ExecuteSilent("g++ -v") == 0 then
 		SetDriversGCC(settings)
 		settings.cc.flags:Add("-Wall")
+		settings.cc.flags:Add("--std=c++11")
 	elseif ExecuteSilent("clang++ -v") == 0 then
 		SetDriversClang(settings)
 		settings.cc.flags:Add("-Wall")

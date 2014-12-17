@@ -35,7 +35,6 @@
 #include "application.h"
 #include "room.h"
 #include "menu.h"
-#include "linked_list.h"
 #include "tl_functions.h"
 
 using namespace std;
@@ -48,17 +47,17 @@ using namespace std;
 capplication::capplication() : m_running(1), m_return_to_main_menu(1)
 {
 	/* Add the menuetries for the main menu*/
-	m_main_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::list_rooms, "List rooms"));
-	m_main_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::add_room, "Add a room"));
-	m_main_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::edit_room, "Edit a room"));
-	m_main_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::delete_room, "Delete a room"));
-	m_main_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::end_program, "Quit"));
+	m_main_menu.add_entry(new cmenu_entry([&] { list_rooms(); }, "List rooms"));
+	m_main_menu.add_entry(new cmenu_entry([&] { add_room(); }, "Add a room"));
+	m_main_menu.add_entry(new cmenu_entry([&] { edit_room(); }, "Edit a room"));
+	m_main_menu.add_entry(new cmenu_entry([&] { delete_room(); }, "Delete a room"));
+	m_main_menu.add_entry(new cmenu_entry([&] { end_program(); }, "Quit"));
 }
 
 capplication::~capplication()
 {
 	/* Free the memory of all rooms that are available */
-	for(unsigned int i = 0; i < m_rooms.length(); i++)
+	for(unsigned int i = 0; i < m_rooms.size(); i++)
 		if(m_rooms[i])
 			delete m_rooms[i];
 }
@@ -75,7 +74,7 @@ void capplication::run()
 
 void capplication::list_rooms()
 {
-	for(unsigned int i = 0; i < m_rooms.length(); i++)
+	for(unsigned int i = 0; i < m_rooms.size(); i++)
 		if(m_rooms[i])
 			cout<<i+1<<": "<<m_rooms[i]->name()<<endl;
 	return;
@@ -83,7 +82,7 @@ void capplication::list_rooms()
 
 void capplication::add_room()
 {
-	m_rooms.append(new croom);
+	m_rooms.push_back(new croom);
 	return;
 }
 
@@ -101,7 +100,7 @@ void capplication::edit_room()
 			/* We need a try/catch clock here, because clinked_list throws an exception, if the element we want to access does not exist */
 			try
 				{
-					pcurrent_room = m_rooms[selection-1];
+					pcurrent_room = m_rooms.at(selection-1);
 				}
 			catch(out_of_range)
 				{
@@ -114,14 +113,14 @@ void capplication::edit_room()
 
 	/* Create the room menu */
 	cmenu room_menu;
-	room_menu.add_entry(new cmenu_entry<croom>(pcurrent_room, &croom::print, "View Room"));
-	room_menu.add_entry(new cmenu_entry<croom>(pcurrent_room, &croom::handout, "Sell Ticket"));
-	room_menu.add_entry(new cmenu_entry<croom>(pcurrent_room, &croom::reserve, "Reserve Ticket"));
-	room_menu.add_entry(new cmenu_entry<croom>(pcurrent_room, &croom::handout, "Hand out reserved ticket"));
-	room_menu.add_entry(new cmenu_entry<croom>(pcurrent_room, &croom::release, "Cancel reservation"));
-	room_menu.add_entry(new cmenu_entry<croom>(pcurrent_room, &croom::cancel, "Take back ticket"));
-	room_menu.add_entry(new cmenu_entry<croom>(pcurrent_room, &croom::lock, "Make seat unavailable"));
-	room_menu.add_entry(new cmenu_entry<capplication>(this, &capplication::return_to_main_menu, "Return to main menu"));
+	room_menu.add_entry(new cmenu_entry([&] { pcurrent_room->print(); }, "View Room"));
+	room_menu.add_entry(new cmenu_entry([&] { pcurrent_room->handout(); }, "Sell Ticket"));
+	room_menu.add_entry(new cmenu_entry([&] { pcurrent_room->reserve(); }, "Reserve Ticket"));
+	room_menu.add_entry(new cmenu_entry([&] { pcurrent_room->handout(); }, "Hand out reserved ticket"));
+	room_menu.add_entry(new cmenu_entry([&] { pcurrent_room->release(); }, "Cancel reservation"));
+	room_menu.add_entry(new cmenu_entry([&] { pcurrent_room->cancel(); }, "Take back ticket"));
+	room_menu.add_entry(new cmenu_entry([&] { pcurrent_room->lock(); }, "Make seat unavailable"));
+	room_menu.add_entry(new cmenu_entry([&] { return_to_main_menu(); }, "Return to main menu"));
 
 	/* Show the room menu and select entries from it as long as we are not returning to the main menu */
 	m_return_to_main_menu = 0;
@@ -147,7 +146,7 @@ void capplication::delete_room()
 			/* We need a try/catch clock here, because clinked_list throws an exception, if the element we want to access does not exist */
 			try
 				{
-					pcurrent_room = m_rooms[selection-1];
+					pcurrent_room = m_rooms.at(selection-1);
 				}
 			catch(out_of_range)
 				{
@@ -159,7 +158,7 @@ void capplication::delete_room()
 	while(!pcurrent_room);
 
 	delete pcurrent_room;			/* Free the memory of the room we want to delete */
-	m_rooms.remove(selection-1);	/* Remove the room from the linked list */
+	m_rooms.erase(m_rooms.begin()+selection-1);	/* Remove the room from the linked list */
 	return;
 }
 

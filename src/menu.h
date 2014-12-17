@@ -26,8 +26,9 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include <functional>
 
-#include "linked_list.h"
 #include "tl_functions.h"
 
 using namespace std;
@@ -44,18 +45,16 @@ class imenu_entry
 	virtual ~imenu_entry(){}
 } ;
 
-template<typename T>
 class cmenu_entry : public imenu_entry
 {
 	private:
-	T *m_pobject;
-	void (T::*m_pmethod)();
+	function<void()> m_func;
 	string m_name;
   
 	protected:
 	void do_action()
 	{
-		(m_pobject->*m_pmethod)();
+		m_func();
 		return;
 	}
 	string do_name() const
@@ -64,18 +63,18 @@ class cmenu_entry : public imenu_entry
 	}
  
 	public:
-	cmenu_entry(T *pobject, void (T::*pmethod)(), string name)
-	: m_pobject(pobject), m_pmethod(pmethod), m_name(name)
+	cmenu_entry(function<void()> func, string name)
+	: m_func(func), m_name(name)
 	{}
 } ;
 
 class cmenu
 {
  protected:
-	clinked_list<imenu_entry*> m_entries;
+	vector<imenu_entry*> m_entries;
 	virtual void do_display()
 	{
-		for(unsigned int i = 0; i < m_entries.length(); i++)
+		for(unsigned int i = 0; i < m_entries.size(); i++)
 			{
 				cout<<"("<<i<<") "<<m_entries[i]->name()<<endl;
 			}
@@ -85,7 +84,7 @@ class cmenu
 	{
 		unsigned int selection;
 		do_input(selection);
-		if(selection < m_entries.length())
+		if(selection < m_entries.size())
 			m_entries[selection]->action();
 		else
 			cout<<"Invalid menu entry!"<<endl;
@@ -95,7 +94,7 @@ class cmenu
 	public:
 	virtual ~cmenu()
 	{
-		for(unsigned int i = 0 ; i < m_entries.length(); i++)
+		for(unsigned int i = 0 ; i < m_entries.size(); i++)
 			{
 				if(m_entries[i])
 					delete m_entries[i];
@@ -104,8 +103,7 @@ class cmenu
   
 	void add_entry(imenu_entry *pentry)
 	{
-		m_entries.append();
-		m_entries.last() = pentry;
+		m_entries.push_back(pentry);
 	}
   
 	void display() { do_display(); }
